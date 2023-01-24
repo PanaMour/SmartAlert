@@ -3,8 +3,7 @@ package com.unipi.chrispana.smartalert;
 public class AlertClass {
     String id, event, comments, location, timestamp, photo;
 
-    public AlertClass(String id, String event, String comments, String location, String timestamp, String photo) {
-        this.id = id;
+    public AlertClass(String event, String comments, String location, String timestamp, String photo) {
         this.event = event;
         this.comments = comments;
         this.location = location;
@@ -12,9 +11,6 @@ public class AlertClass {
         this.photo = photo;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public void setEvent(String event) {
         this.event = event;
@@ -34,10 +30,6 @@ public class AlertClass {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getEvent() {

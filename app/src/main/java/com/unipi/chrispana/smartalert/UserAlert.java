@@ -47,15 +47,15 @@ public class UserAlert extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
 
-        String id = reference.child("id").push().toString();
         String event = events.getSelectedItem().toString();
         String comment = comments.getText().toString();
         String userLocation = location.getText().toString();
         String timestamp = java.time.LocalDate.now().toString();
         String photo = "photo";
 
-        AlertClass alertClass = new AlertClass(id,event,comment,userLocation,timestamp,photo);
-        reference.child(id).setValue(alertClass);
+        AlertClass alertClass = new AlertClass(event,comment,userLocation,timestamp,photo);
+
+        reference.child("").push().setValue(alertClass);
 
         Toast.makeText(this,"Alert has been sent successfully!", Toast.LENGTH_SHORT).show();
         comments.setText("");

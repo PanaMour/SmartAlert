@@ -61,7 +61,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
-            //return;
         }
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {

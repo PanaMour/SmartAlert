@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SmartAlert</string>
+    <string name="comments">Comments</string>
+    <string name="earthquake">Earthquake</string>
+    <string name="flood">Flood</string>
+    <string name="fire">Fire</string>
+    <string name="hurricane">Hurricane</string>
+    <string name="location">Location</string>
+    <string name="insertAlert">Insert Alert</string>
 </resources>

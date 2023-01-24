@@ -26,12 +26,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static int REQUEST_PERMISSION=1;
     LocationManager locationManager;
     Button login;
-    Bundle savedIns;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        savedIns = savedInstanceState;
         login = findViewById(R.id.loginbutton);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         askForLocationPermisson();

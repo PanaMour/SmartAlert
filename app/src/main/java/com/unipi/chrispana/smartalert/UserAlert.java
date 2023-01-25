@@ -48,6 +48,8 @@ import com.unipi.chrispana.smartalert.databinding.ActivityUserAlertBinding;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,7 +60,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     Uri imageUri;
     StorageReference storageReference;
     AlertDialog alertDialog;
-
+    String fileName = "";
     Spinner events;
     EditText comments;
     LocationManager locationManager;
@@ -87,7 +89,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         getLocation();
 
         //retrieve image
-        binding.insertAlert.setOnClickListener(new View.OnClickListener() {
+        /*binding.insertAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserAlert.this);
@@ -126,7 +128,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -155,7 +157,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         });
     }
 
-    public void uploadImage(View view){
+    public void uploadImage(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UserAlert.this);
         builder.setMessage("Uploading File...");
@@ -163,9 +165,9 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         Dialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.CANADA);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.UK);
         Date now = new Date();
-        String fileName = formatter.format(now);
+        fileName = formatter.format(now);
         storageReference = FirebaseStorage.getInstance().getReference(fileName);
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -187,8 +189,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     }
 
     public void getLocation(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         }
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
@@ -215,7 +216,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             if (loc != null) {
                 location = loc.getLatitude()+ "," + loc.getLongitude();
             }
-
         }
     }
 
@@ -229,8 +229,10 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
 
             String event = events.getSelectedItem().toString();
             String comment = comments.getText().toString();
-            String timestamp = java.time.LocalDate.now().toString();
-            String photo = "photo";
+            String timestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now());
+            if(imageUri != null)
+            uploadImage();
+            String photo = fileName;
 
             AlertClass alertClass = new AlertClass(event, comment, location, timestamp, photo);
 
@@ -238,8 +240,10 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
 
             Toast.makeText(UserAlert.this, "Alert has been sent successfully!", Toast.LENGTH_SHORT).show();
             comments.setText("");
+            imageUri = null;
+            fileName = "";
+            binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
         }
-
     }
 
     public void showMessage(String title, String text){

@@ -9,7 +9,7 @@
     <Spinner
         android:id="@+id/insertEvent"
         android:layout_width="315dp"
-        android:layout_height="0dp"
+        android:layout_height="48dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="70dp"
         android:layout_marginEnd="55dp"
@@ -44,6 +44,7 @@
         android:id="@+id/insertAlert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="insertAlert"
         android:text="@string/insertAlert"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,14 +57,15 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="uploadImage"
         app:layout_constraintBottom_toTopOf="@+id/insertAlert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/insertComments"
         app:layout_constraintVertical_bias="0.41"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:srcCompat="@drawable/ic_launcher_background" />
 
     <Button
         android:id="@+id/selectImageButton"

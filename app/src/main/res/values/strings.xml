@@ -8,4 +8,5 @@
     <string name="location">Location</string>
     <string name="insertAlert">Insert Alert</string>
     <string name="selectImage">Select Image</string>
+    <string name="loginButton">Login</string>
 </resources>

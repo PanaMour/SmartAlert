@@ -58,12 +58,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 alertDialog.show();
             } else {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-
-                /*Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                if (loc != null) {
-                    location = loc.getLatitude()+ "," + loc.getLongitude();
-                }*/
             }
         }
     }

@@ -147,12 +147,15 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         binding.selectImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                someActivityResultLauncher.launch(intent);
             }
         });
     }
 
-    public void uploadImage(){
+    public void uploadImage(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UserAlert.this);
         builder.setMessage("Uploading File...");
@@ -181,13 +184,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                         Toast.makeText(UserAlert.this,"Failed to Upload",Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void selectImage(){
-        Intent intent = new Intent();
-        intent.setType("");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,100);
     }
 
     public void getLocation(){

@@ -59,7 +59,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     ActivityUserAlertBinding binding;
     Uri imageUri;
     StorageReference storageReference;
-    AlertDialog alertDialog;
     String fileName = "";
     Spinner events;
     EditText comments;
@@ -87,48 +86,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         getLocation();
-
-        //retrieve image
-        /*binding.insertAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(UserAlert.this);
-                builder.setMessage("Fetching Image...");
-                builder.setCancelable(false);
-                Dialog alertDialog = builder.create();
-                alertDialog.setCanceledOnTouchOutside(true);
-                alertDialog.show();
-
-                String imageID = "earthquake1";
-
-                storageReference = FirebaseStorage.getInstance().getReference(imageID + ".jpg");
-
-                try {
-                    File localfile = File.createTempFile("tempfile", ".jpg");
-
-                    storageReference.getFile(localfile)
-                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    if (alertDialog.isShowing())
-                                        alertDialog.dismiss();
-
-                                    Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
-                                    binding.imageView.setImageBitmap(bitmap);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    if (alertDialog.isShowing())
-                                        alertDialog.dismiss();
-                                    Toast.makeText(UserAlert.this, "Failed to retrieve", Toast.LENGTH_SHORT);
-                                }
-                            });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });*/
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -242,7 +199,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             comments.setText("");
             imageUri = null;
             fileName = "";
-            binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
+            binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.insert_photo_here));
         }
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartAlert</string>
+    <string name="app_name" translatable="false">SmartAlert</string>
     <string name="comments">Comments</string>
     <string name="earthquake">Earthquake</string>
     <string name="flood">Flood</string>

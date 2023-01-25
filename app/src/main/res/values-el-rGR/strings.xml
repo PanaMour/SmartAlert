@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <string name="comments">Σχόλια</string>
+    <string name="earthquake">Σεισμός</string>
+    <string name="flood">Πλημμύρα</string>
+    <string name="fire">Πυρκαγιά</string>
+    <string name="hurricane">Ανεμοστρόβιλος</string>
+    <string name="location">Τοποθεσία</string>
+    <string name="insertAlert">Εισαγωγή Περιστατικού</string>
+    <string name="selectImage">Επιλογή Εικόνας</string>
+</resources>

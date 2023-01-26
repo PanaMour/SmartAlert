@@ -6,8 +6,10 @@
     <string name="flood">Πλημμύρα</string>
     <string name="fire">Πυρκαγιά</string>
     <string name="hurricane">Ανεμοστρόβιλος</string>
-    <string name="location">Τοποθεσία</string>
+    <string name="location">Τοποθεσία:</string>
     <string name="insertAlert">Εισαγωγή Περιστατικού</string>
     <string name="selectImage">Επιλογή Εικόνας</string>
     <string name="loginButton">Σύνδεση</string>
+    <string name="event">Περιστατικό:</string>
+    <string name="time">Ώρα:</string>
 </resources>

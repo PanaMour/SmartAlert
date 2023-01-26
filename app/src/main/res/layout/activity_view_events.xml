@@ -6,36 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ViewEvents">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/eventList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/eventImage1"
-                android:layout_width="136dp"
-                android:layout_height="136dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="21dp"
-                app:srcCompat="@drawable/insert_photo_here" />
-
-            <TextView
-                android:id="@+id/details1"
-                android:layout_width="197dp"
-                android:layout_height="125dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="29dp"
-                android:layout_marginBottom="581dp"
-                android:layout_toEndOf="@+id/eventImage1" />
-        </RelativeLayout>
-    </LinearLayout>
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

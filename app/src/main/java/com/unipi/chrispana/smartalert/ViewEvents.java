@@ -3,6 +3,8 @@ package com.unipi.chrispana.smartalert;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
@@ -13,8 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -23,60 +32,43 @@ import com.unipi.chrispana.smartalert.databinding.ActivityViewEventsBinding;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ViewEvents extends AppCompatActivity {
-
-    ImageView imageView1;
-    TextView textView1;
     ActivityViewEventsBinding binding;
-    Uri imageUri;
-    StorageReference storageReference;
+    RecyclerView recyclerView;
+    DatabaseReference database;
+    AlertAdapter alertAdapter;
+    ArrayList<AlertClass> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        imageView1 = findViewById(R.id.eventImage1);
-        textView1 = findViewById(R.id.details1);
-        retrieveImage();
-    }
+        recyclerView = findViewById(R.id.eventList);
+        database = FirebaseDatabase.getInstance().getReference("alerts");
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    public void retrieveImage(){
-            AlertDialog.Builder builder = new AlertDialog.Builder(ViewEvents.this);
-            builder.setMessage("Fetching Image...");
-            builder.setCancelable(false);
-            Dialog alertDialog = builder.create();
-            alertDialog.setCanceledOnTouchOutside(true);
-            alertDialog.show();
+        list = new ArrayList<>();
+        alertAdapter = new AlertAdapter(this,list);
+        recyclerView.setAdapter(alertAdapter);
 
-            String imageID = "earthquake1";
-
-            storageReference = FirebaseStorage.getInstance().getReference(imageID + ".jpg");
-
-            try {
-                File localfile = File.createTempFile("tempfile", ".jpg");
-
-                storageReference.getFile(localfile)
-                        .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                if (alertDialog.isShowing())
-                                    alertDialog.dismiss();
-
-                                Bitmap bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
-                                binding.eventImage1.setImageBitmap(bitmap);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                if (alertDialog.isShowing())
-                                    alertDialog.dismiss();
-                                Toast.makeText(ViewEvents.this, "Failed to retrieve", Toast.LENGTH_SHORT);
-                            }
-                        });
-            } catch (IOException e) {
-                e.printStackTrace();
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    AlertClass alertClass = dataSnapshot.getValue(AlertClass.class);
+                    list.add(alertClass);
+                }
+                alertAdapter.notifyDataSetChanged();
             }
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

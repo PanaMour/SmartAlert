@@ -5,8 +5,10 @@
     <string name="flood">Flood</string>
     <string name="fire">Fire</string>
     <string name="hurricane">Hurricane</string>
-    <string name="location">Location</string>
+    <string name="location">Location:</string>
     <string name="insertAlert">Insert Alert</string>
     <string name="selectImage">Select Image</string>
     <string name="loginButton">Login</string>
+    <string name="event">Event:</string>
+    <string name="time">Time:</string>
 </resources>

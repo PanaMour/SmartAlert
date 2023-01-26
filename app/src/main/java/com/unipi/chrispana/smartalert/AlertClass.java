@@ -3,6 +3,7 @@ package com.unipi.chrispana.smartalert;
 public class AlertClass {
     String id, event, comments, location, timestamp, photo;
 
+    public AlertClass(){}
     public AlertClass(String event, String comments, String location, String timestamp, String photo) {
         this.event = event;
         this.comments = comments;

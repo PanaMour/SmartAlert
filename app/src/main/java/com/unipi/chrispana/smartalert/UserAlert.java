@@ -122,7 +122,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         Dialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(true);
         alertDialog.show();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.UK);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss", Locale.getDefault());
         Date now = new Date();
         fileName = formatter.format(now);
         storageReference = FirebaseStorage.getInstance().getReference(fileName);
@@ -188,7 +188,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             String comment = comments.getText().toString();
             String timestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now());
             if(imageUri != null)
-            uploadImage();
+                uploadImage();
             String photo = fileName;
 
             AlertClass alertClass = new AlertClass(event, comment, location, timestamp, photo);

@@ -64,7 +64,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         }
         holder.location.setText(city);
         holder.time.setText(alertClass.getTimestamp());
-        retrieveImage(alertClass.getPhoto(),holder.photo);
+        retrieveImage(alertClass.getPhoto(),holder.photo,alertClass.event);
     }
 
     @Override
@@ -88,8 +88,11 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         }
     }
 
-    public void retrieveImage(String imageID,ImageView photo){
-        storageReference = FirebaseStorage.getInstance().getReference(imageID);
+    public void retrieveImage(String imageID,ImageView photo,String event){
+        if(!imageID.equals(""))
+            storageReference = FirebaseStorage.getInstance().getReference(imageID);
+        else
+            storageReference = FirebaseStorage.getInstance().getReference(event);
 
         try {
             File localfile = File.createTempFile("tempfile", "");

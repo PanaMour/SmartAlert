@@ -58,6 +58,7 @@ public class ViewEvents extends AppCompatActivity {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     AlertClass alertClass = dataSnapshot.getValue(AlertClass.class);
                     list.add(alertClass);

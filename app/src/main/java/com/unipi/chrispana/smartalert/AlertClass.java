@@ -1,17 +1,27 @@
 package com.unipi.chrispana.smartalert;
 
 public class AlertClass {
-    String id, event, comments, location, timestamp, photo;
+    String event, comments, location, timestamp, photo;
+    int count = 1;
 
     public AlertClass(){}
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public AlertClass(String event, String comments, String location, String timestamp, String photo) {
         this.event = event;
         this.comments = comments;
         this.location = location;
         this.timestamp = timestamp;
         this.photo = photo;
+        this.count = 1;
     }
-
 
     public void setEvent(String event) {
         this.event = event;

@@ -1,5 +1,7 @@
 package com.unipi.chrispana.smartalert;
 
+import static java.lang.Math.abs;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -33,11 +35,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -78,7 +85,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         String flood = getString(R.string.flood);
         String hurricane = getString(R.string.hurricane);
         String fire = getString(R.string.fire);
-        String[] eventSpinner = new String[]{eq, flood, hurricane, fire};
+        String storm = getString(R.string.storm);
+        String[] eventSpinner = new String[]{eq, flood, hurricane, fire, storm};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventSpinner);
         events.setAdapter(adapter);
         comments = findViewById(R.id.insertComments);
@@ -183,7 +191,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         if (location.equals(""))
             showMessage("Error!","An error occurred. Please try again!");
         else {
-
             String event = events.getSelectedItem().toString();
             String comment = comments.getText().toString();
             String timestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(LocalDateTime.now());
@@ -192,8 +199,26 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             String photo = fileName;
 
             AlertClass alertClass = new AlertClass(event, comment, location, timestamp, photo);
+            int endTime = Integer.parseInt(alertClass.getTimestamp().substring(0,2));
+            reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for(DataSnapshot alertSnapshot : task.getResult().getChildren()) {
+                            int startTime = Integer.parseInt(alertSnapshot.child("timestamp").getValue(String.class).substring(0, 2));
+                            if (abs(startTime - endTime) <= 1) {
+                                alertClass.setCount(alertClass.getCount()+1);
+                                reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)+1);
+                            }
+                            System.out.println(alertSnapshot.getKey().toString());
+                        }
+                        reference.child("").push().setValue(alertClass);
+                    }
+                    else {
 
-            reference.child("").push().setValue(alertClass);
+                    }
+                }
+            });
 
             Toast.makeText(UserAlert.this, "Alert has been sent successfully!", Toast.LENGTH_SHORT).show();
             comments.setText("");

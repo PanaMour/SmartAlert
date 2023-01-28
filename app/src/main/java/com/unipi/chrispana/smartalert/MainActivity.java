@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
-            Intent intent = new Intent(this, ViewEvents.class);
+            Intent intent = new Intent(this, UserAlert.class);
             startActivity(intent);
         }
         else {

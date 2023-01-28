@@ -12,4 +12,5 @@
     <string name="loginButton">Σύνδεση</string>
     <string name="event">Περιστατικό:</string>
     <string name="time">Ώρα:</string>
+    <string name="storm">Καταιγίδα</string>
 </resources>

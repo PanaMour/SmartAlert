@@ -11,4 +11,5 @@
     <string name="loginButton">Login</string>
     <string name="event">Event:</string>
     <string name="time">Time:</string>
+    <string name="storm">Storm</string>
 </resources>

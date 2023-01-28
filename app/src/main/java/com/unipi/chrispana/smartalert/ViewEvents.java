@@ -33,6 +33,8 @@ import com.unipi.chrispana.smartalert.databinding.ActivityViewEventsBinding;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ViewEvents extends AppCompatActivity {
     ActivityViewEventsBinding binding;
@@ -63,6 +65,7 @@ public class ViewEvents extends AppCompatActivity {
                     AlertClass alertClass = dataSnapshot.getValue(AlertClass.class);
                     list.add(alertClass);
                 }
+                Collections.sort(list, Comparator.comparing(AlertClass::getCount).reversed());
                 alertAdapter.notifyDataSetChanged();
             }
 

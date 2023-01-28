@@ -76,6 +76,10 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     String location = "";
     FirebaseDatabase database;
     DatabaseReference reference;
+    public static final double earthRadius = 6371.0;
+    int hours = 0;
+    int kilometers = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,34 +211,34 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
                         for(DataSnapshot alertSnapshot : task.getResult().getChildren()) {
-                            int hours = 0;
                             switch (alertClass.getEvent()){
                                 case "Earthquake":
                                     hours = 2;
+                                    kilometers = 150;
                                     break;
                                 case "Flood":
                                     hours = 12;
+                                    kilometers = 100;
                                     break;
                                 case "Hurricane":
                                     hours = 24;
+                                    kilometers = 80;
                                     break;
                                 case "Fire":
                                     hours = 48;
+                                    kilometers = 200;
                                     break;
                                 case "Storm":
                                     hours = 5;
+                                    kilometers = 50;
                                     break;
                             }
                             if(isWithinHours(alertSnapshot.child("timestamp").getValue(String.class),alertClass.getTimestamp(),hours) &&
-                                    alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent())){
+                                    alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent()) &&
+                                    isWithinKilometers(alertSnapshot.child("location").getValue(String.class),alertClass.getLocation(),kilometers)){
                                 alertClass.setCount(alertClass.getCount()+1);
                                 reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)+1);
                             }
-
-                            /*if(isWithinADay(alertSnapshot.child("timestamp").getValue(String.class),alertClass.getTimestamp())){
-                                alertClass.setCount(alertClass.getCount()+1);
-                                reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)+1);
-                            }*/
                             System.out.println(alertSnapshot.getKey().toString());
                         }
                         reference.child("").push().setValue(alertClass);
@@ -263,6 +267,28 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+
+    //calculate the distance between 2 points using Haversine Formula
+    public static boolean isWithinKilometers(String location1, String location2, double n) {
+        String[] latLong1 = location1.split(",");
+        String[] latLong2 = location2.split(",");
+        double lat1 = Double.parseDouble(latLong1[0]);
+        double lon1 = Double.parseDouble(latLong1[1]);
+        double lat2 = Double.parseDouble(latLong2[0]);
+        double lon2 = Double.parseDouble(latLong2[1]);
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = earthRadius * c;
+
+        return distance <= n;
     }
 
 

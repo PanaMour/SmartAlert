@@ -1,8 +1,8 @@
 package com.unipi.chrispana.smartalert;
 
 public class AlertClass {
-    String event, comments, location, timestamp, photo;
-    int count = 1;
+    private String event, comments, location, timestamp, photo;
+    private int count = 1;
 
     public AlertClass(){}
 

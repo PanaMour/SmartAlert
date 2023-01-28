@@ -64,7 +64,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         }
         holder.location.setText(city);
         holder.time.setText(alertClass.getTimestamp());
-        retrieveImage(alertClass.getPhoto(),holder.photo,alertClass.event);
+        retrieveImage(alertClass.getPhoto(),holder.photo,alertClass.getEvent());
     }
 
     @Override

@@ -54,9 +54,11 @@ import com.unipi.chrispana.smartalert.databinding.ActivityUserAlertBinding;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -205,11 +207,34 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
                         for(DataSnapshot alertSnapshot : task.getResult().getChildren()) {
-                            int startTime = Integer.parseInt(alertSnapshot.child("timestamp").getValue(String.class).substring(0, 2));
-                            if (abs(startTime - endTime) <= 1) {
+                            int hours = 0;
+                            switch (alertClass.getEvent()){
+                                case "Earthquake":
+                                    hours = 2;
+                                    break;
+                                case "Flood":
+                                    hours = 12;
+                                    break;
+                                case "Hurricane":
+                                    hours = 24;
+                                    break;
+                                case "Fire":
+                                    hours = 48;
+                                    break;
+                                case "Storm":
+                                    hours = 5;
+                                    break;
+                            }
+                            if(isWithinHours(alertSnapshot.child("timestamp").getValue(String.class),alertClass.getTimestamp(),hours) &&
+                                    alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent())){
                                 alertClass.setCount(alertClass.getCount()+1);
                                 reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)+1);
                             }
+
+                            /*if(isWithinADay(alertSnapshot.child("timestamp").getValue(String.class),alertClass.getTimestamp())){
+                                alertClass.setCount(alertClass.getCount()+1);
+                                reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)+1);
+                            }*/
                             System.out.println(alertSnapshot.getKey().toString());
                         }
                         reference.child("").push().setValue(alertClass);
@@ -227,6 +252,19 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.insert_photo_here));
         }
     }
+
+
+    public boolean isWithinHours(String timestamp1, String timestamp2, int n) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            long diff = dateFormat.parse(timestamp1).getTime() - dateFormat.parse(timestamp2).getTime();
+            return Math.abs(diff) <= (long) n * 60 * 60 * 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public void showMessage(String title, String text){
         new android.app.AlertDialog.Builder(this)

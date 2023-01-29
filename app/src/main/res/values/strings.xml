@@ -15,4 +15,5 @@
     <string name="count">Reported Incidents:</string>
     <string name="reject">Reject</string>
     <string name="accept">Accept</string>
+    <string name="checkBox">Send Notification for Similar Events</string>
 </resources>

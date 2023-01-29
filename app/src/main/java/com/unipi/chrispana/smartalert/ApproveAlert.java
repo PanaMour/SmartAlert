@@ -15,10 +15,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,8 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class ApproveAlert extends AppCompatActivity {
@@ -50,6 +48,7 @@ public class ApproveAlert extends AppCompatActivity {
     DatabaseReference rejectReference;
     DatabaseReference acceptReference;
     StorageReference storageReference;
+    CheckBox checkBox;
     public static final double earthRadius = 6371.0;
     int hours = 0;
     int kilometers = 0;
@@ -88,6 +87,7 @@ public class ApproveAlert extends AppCompatActivity {
         image = findViewById(R.id.imageApprove);
         accept = findViewById(R.id.acceptButton);
         reject = findViewById(R.id.rejectButton);
+        checkBox = findViewById(R.id.notificationAll);
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -123,7 +123,7 @@ public class ApproveAlert extends AppCompatActivity {
     public void accept(View view){
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
-        rejectReference = database.getReference("accepted");
+        acceptReference = database.getReference("accepted");
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -155,11 +155,16 @@ public class ApproveAlert extends AppCompatActivity {
                                 alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent()) &&
                                 isWithinKilometers(alertSnapshot.child("location").getValue(String.class),alertClass.getLocation(),kilometers)&&
                                 !alertSnapshot.child("id").getValue(String.class).equals(alertClass.getId())){
-                            reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
+                            if(!checkBox.isChecked())
+                                reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
+                            else{
+                                System.out.println(alertSnapshot);
+                                acceptReference.child(alertSnapshot.getKey()).setValue(alertSnapshot.getValue(AlertClass.class));
+                                reference.child(alertSnapshot.getKey()).removeValue();
+                            }
                         }
                     }
-                    System.out.println(alertClass);
-                    rejectReference.child(alertClass.getId()).setValue(alertClass);
+                    acceptReference.child(alertClass.getId()).setValue(alertClass);
                     reference.child(alertClass.getId()).removeValue();
                     onBackPressed();
                 }

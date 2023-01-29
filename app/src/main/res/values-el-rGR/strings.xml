@@ -16,4 +16,5 @@
     <string name="count">Πλήθος Περιστατικών:</string>
     <string name="reject">Απόρριψη</string>
     <string name="accept">Αποδοχή</string>
+    <string name="checkBox">Αποστολή Οδηγιών Παρόμοιων Περιστατικών</string>
 </resources>

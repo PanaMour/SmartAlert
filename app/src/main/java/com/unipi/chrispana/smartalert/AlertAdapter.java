@@ -70,7 +70,6 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println(alertClass.getEvent());
                 Intent intent = new Intent(context, ApproveAlert.class);
                 intent.putExtra("id",alertClass.getId());
                 v.getContext().startActivity(intent);

@@ -11,7 +11,7 @@
     <string name="selectImage">Επιλογή Εικόνας</string>
     <string name="loginButton">Σύνδεση</string>
     <string name="event">Περιστατικό:</string>
-    <string name="time">Ώρα:</string>
+    <string name="time">Ημερομηνία:</string>
     <string name="storm">Καταιγίδα</string>
     <string name="count">Πλήθος Περιστατικών:</string>
     <string name="reject">Απόρριψη</string>

@@ -10,7 +10,7 @@
     <string name="selectImage">Select Image</string>
     <string name="loginButton">Login</string>
     <string name="event">Event:</string>
-    <string name="time">Time:</string>
+    <string name="time">Date:</string>
     <string name="storm">Storm</string>
     <string name="count">Reported Incidents:</string>
     <string name="reject">Reject</string>

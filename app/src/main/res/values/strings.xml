@@ -12,4 +12,7 @@
     <string name="event">Event:</string>
     <string name="time">Time:</string>
     <string name="storm">Storm</string>
+    <string name="count">Reported Incidents:</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
 </resources>

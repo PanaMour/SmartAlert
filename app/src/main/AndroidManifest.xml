@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SmartAlert"
         tools:targetApi="31">
         <activity
+            android:name=".ApproveAlert"
+            android:exported="false" />
+        <activity
             android:name=".ViewEvents"
             android:exported="false" />
         <activity

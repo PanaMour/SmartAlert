@@ -64,7 +64,6 @@ import java.util.Locale;
 
 public class UserAlert extends AppCompatActivity implements LocationListener {
 
-    //retrieve/select image from db
     ActivityUserAlertBinding binding;
     Uri imageUri;
     StorageReference storageReference;
@@ -171,7 +170,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             builder.setMessage("Please enable Location Services");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    // Show location settings when the user acknowledges the alert dialog
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
                 }
@@ -203,9 +201,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             if(imageUri != null)
                 uploadImage();
             String photo = fileName;
-
-            AlertClass alertClass = new AlertClass(event, comment, location, timestamp, photo);
-            int endTime = Integer.parseInt(alertClass.getTimestamp().substring(0,2));
+            String id = reference.child("alerts").push().getKey();
+            AlertClass alertClass = new AlertClass(id,event, comment, location, timestamp, photo);
             reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -241,7 +238,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                             }
                             System.out.println(alertSnapshot.getKey().toString());
                         }
-                        reference.child("").push().setValue(alertClass);
+                        reference.child(id).setValue(alertClass);
                     }
                     else {
 
@@ -256,8 +253,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.insert_photo_here));
         }
     }
-
-
     public boolean isWithinHours(String timestamp1, String timestamp2, int n) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
@@ -268,9 +263,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             return false;
         }
     }
-
-
-
     //calculate the distance between 2 points using Haversine Formula
     public static boolean isWithinKilometers(String location1, String location2, double n) {
         String[] latLong1 = location1.split(",");
@@ -290,8 +282,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
 
         return distance <= n;
     }
-
-
     public void showMessage(String title, String text){
         new android.app.AlertDialog.Builder(this)
                 .setCancelable(true)
@@ -299,7 +289,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 .setMessage(text)
                 .show();
     }
-
     @Override
     public void onLocationChanged(@NonNull Location location) {
 

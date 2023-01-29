@@ -4,6 +4,7 @@ import static java.lang.Double.parseDouble;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
@@ -46,9 +47,9 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
+
         return new MyViewHolder(v);
     }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -65,6 +66,16 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         holder.location.setText(city);
         holder.time.setText(alertClass.getTimestamp());
         retrieveImage(alertClass.getPhoto(),holder.photo,alertClass.getEvent());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(alertClass.getEvent());
+                Intent intent = new Intent(context, ApproveAlert.class);
+                intent.putExtra("id",alertClass.getId());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

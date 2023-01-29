@@ -74,11 +74,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
-            Intent intent = new Intent(this, UserAlert.class);
+            Intent intent = new Intent(this, ViewEvents.class);
             startActivity(intent);
         }
         else {
-            //showMessage("Location access is needed!", "Please restart the app and grant location access.");
             Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -86,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             intent.setData(uri);
             startActivity(intent);
         }
-
-
     }
 
     @Override

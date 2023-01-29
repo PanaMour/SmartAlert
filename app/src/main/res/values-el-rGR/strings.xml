@@ -13,4 +13,7 @@
     <string name="event">Περιστατικό:</string>
     <string name="time">Ώρα:</string>
     <string name="storm">Καταιγίδα</string>
+    <string name="count">Πλήθος Περιστατικών:</string>
+    <string name="reject">Απόρριψη</string>
+    <string name="accept">Αποδοχή</string>
 </resources>

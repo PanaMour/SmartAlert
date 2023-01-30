@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -48,6 +49,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         email = findViewById(R.id.insertEmail);
         password = findViewById(R.id.insertPassword);
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            System.out.println("NOPE");
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        System.out.println("HERE IS THE TOKEN: "+token);
+                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
@@ -112,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 }
             });
-            Intent intent = new Intent(this, ViewEvents.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, ViewEvents.class);
+            //startActivity(intent);
         }
         else {
             Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();

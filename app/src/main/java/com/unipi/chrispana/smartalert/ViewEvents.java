@@ -43,11 +43,12 @@ public class ViewEvents extends AppCompatActivity {
     DatabaseReference database;
     AlertAdapter alertAdapter;
     ArrayList<AlertClass> list;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         System.out.println(mAuth.getCurrentUser().getUid());
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

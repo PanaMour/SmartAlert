@@ -6,6 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/insertPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="172dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/insertEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/loginbutton"
         android:layout_width="wrap_content"
@@ -18,4 +41,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.673" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

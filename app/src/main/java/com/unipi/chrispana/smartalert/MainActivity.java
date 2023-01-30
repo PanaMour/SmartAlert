@@ -20,13 +20,21 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     public static int REQUEST_PERMISSION=1;
     LocationManager locationManager;
     Button login;
+    EditText email, password;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +45,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         askForLocationPermisson();
 
+        email = findViewById(R.id.insertEmail);
+        password = findViewById(R.id.insertPassword);
+        mAuth = FirebaseAuth.getInstance();
     }
+
+
 
     public void getLocation(){
 
@@ -71,9 +84,34 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
 
+    public void signup(View view){
+        mAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            showMessage("Success!","User created.");
+                        }
+                        else{
+                            showMessage("Error",task.getException().getLocalizedMessage());
+                        }
+                    }
+                });
+    }
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
+            mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        showMessage("Success!","User authenticated.");
+                    }
+                    else{
+                        showMessage("Error",task.getException().getLocalizedMessage());
+                    }
+                }
+            });
             Intent intent = new Intent(this, ViewEvents.class);
             startActivity(intent);
         }

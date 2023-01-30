@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,9 @@ public class ViewEvents extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        System.out.println(mAuth.getCurrentUser().getUid());
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

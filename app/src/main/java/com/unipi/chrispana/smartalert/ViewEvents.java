@@ -48,8 +48,8 @@ public class ViewEvents extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAuth = FirebaseAuth.getInstance();
-        System.out.println(mAuth.getCurrentUser().getUid());
+        //mAuth = FirebaseAuth.getInstance();
+        //System.out.println(mAuth.getCurrentUser().getUid());
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

@@ -20,6 +20,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,11 +38,16 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class ApproveAlert extends AppCompatActivity {
 
@@ -53,6 +65,7 @@ public class ApproveAlert extends AppCompatActivity {
     int hours = 0;
     int kilometers = 0;
     AlertClass alertClass;
+    final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -121,7 +134,7 @@ public class ApproveAlert extends AppCompatActivity {
     }
 
     public void accept(View view){
-        database = FirebaseDatabase.getInstance();
+        /*database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
         acceptReference = database.getReference("accepted");
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -172,7 +185,63 @@ public class ApproveAlert extends AppCompatActivity {
                     Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
                 }
             }
-        });
+        });*/
+
+        sendNotification();
+    }
+
+    private void sendNotification(){
+
+
+        //String targetToken = "eoN8_CRAR42u_ebrvRa0Kg:APA91bFIZ6mym-NU7Hp2-7eUZWBBjzGxqg0nNFTg72a5sX6uizAIY9_ho3KxKJ2BKs_NbkNABgIDnCPM72185p7fOaecyLJMiXlcyKkmPa7_XdYXbunXccKE03w7HrlFQSDmNHZ3IjCg";
+        String targetToken = "dMn-aey_QsS_6g5I0U7lS6:APA91bGrwkly6snR-NXgPgRZXEFSR8_4CGc0BaX_JrJwFOJIDQd_xiCCUBhmapZv9z3SYlKOdIp7y5Hd06P1htBtj_7nvOasCsw7zLL7yk83PESlTulhevWb6kccXOfl3WjxFMpS4B6h";
+        //String targetToken = "eEts0sJOQcKsQxdMsnOwEY:APA91bEN-6rX4UqwFxaFPb87b5ZiEehv7NRAOXHKB8EbA4UQucHIcNe9GTNEKvctTGU-8DVhX6tpbDlXWDPURuHT4ws844-9r0puDJ5sCZ1A8QCoIhgY8WhuRoz3chZpNe5GN05PrxHn";
+
+        String url = "https://fcm.googleapis.com/fcm/send";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // Handle response from the server
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "key=" + API_KEY);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("to", targetToken);
+
+                    JSONObject data = new JSONObject();
+                    data.put("title", "this is TTTTTitle");
+                    data.put("content", "AND BVODY");
+
+                    jsonObject.put("data", data);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return jsonObject.toString().getBytes();
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+
     }
 
     public void reject(View view){

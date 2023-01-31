@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getLocation();
-            mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            /*mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
@@ -130,9 +130,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         showMessage("Error",task.getException().getLocalizedMessage());
                     }
                 }
-            });
-            //Intent intent = new Intent(this, ViewEvents.class);
-            //startActivity(intent);
+            });*/
+            Intent intent = new Intent(this, ViewEvents.class);
+            startActivity(intent);
         }
         else {
             Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();

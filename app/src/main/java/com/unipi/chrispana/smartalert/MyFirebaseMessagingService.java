@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -22,14 +23,17 @@ import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
+    public void onNewToken(@NonNull String token) {
+        //super.onNewToken(token);
+        System.out.println("MyToken "+ token);
+    }
+
+    @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         System.out.println("From: " + remoteMessage.getFrom());
+        System.out.println("IDK"+ remoteMessage.getData());
 
-
-        if (remoteMessage.getNotification() != null) {
-            sendNotification(remoteMessage);
-        }
-
+        sendNotification(remoteMessage);
     }
 
 

@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                     showMessage("Error!","An error occurred. Please try again!");
                 else {
                     database = FirebaseDatabase.getInstance();
-                    reference = database.getReference("users");
+                    reference = database.getReference("all_users");
                     mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -111,7 +111,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                         reference.child(user.getUid()).child("token").setValue(token);
                                         reference.child(user.getUid()).child("location").setValue(location);
                                         reference.child(user.getUid()).child("startTracking").setValue(false);
-                                        showMessage("Success!", "User created.");
+                                        reference.child(user.getUid()).child("role").setValue("user");
+                                        showMessage("Success!", "User registered.");
                                     } else {
                                         showMessage("Error", task.getException().getLocalizedMessage());
                                     }

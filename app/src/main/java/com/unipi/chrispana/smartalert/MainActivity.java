@@ -1,5 +1,7 @@
 package com.unipi.chrispana.smartalert;
 
+import static java.lang.Double.parseDouble;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +30,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     String token = "";
     FirebaseDatabase database;
     DatabaseReference reference;
+    FirebaseUser user;
+    String location = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 });
     }
-
-
-
     public void getLocation(){
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -107,25 +113,69 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
 
     public void register(View view){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION )== PackageManager.PERMISSION_GRANTED) {
+            getLocation();
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        }else {
+            Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        }
     }
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION )== PackageManager.PERMISSION_GRANTED) {
             getLocation();
-            /*mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (loc != null) {
+                location = loc.getLatitude()+ "," + loc.getLongitude();
+            }
+            database = FirebaseDatabase.getInstance();
+            reference = database.getReference("all_users");
+            mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
-                        showMessage("Success!","User authenticated.");
+                        user = mAuth.getCurrentUser();
+                        reference.child(user.getUid()).child("token").setValue(token);
+                        reference.child(user.getUid()).child("location").setValue(location);
+                        Toast.makeText(MainActivity.this,"You have successfully logged in!",Toast.LENGTH_SHORT).show();
+                        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
+                                        if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
+                                            if(alertSnapshot.child("role").getValue(String.class).equals("user")){
+                                                Intent intent = new Intent(MainActivity.this, UserAlert.class);
+                                                startActivity(intent);
+                                                return;
+                                            }
+                                            else if(alertSnapshot.child("role").getValue(String.class).equals("employee")){
+                                                Intent intent = new Intent(MainActivity.this, ViewEvents.class);
+                                                startActivity(intent);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                                else {
+                                    Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
+                                }
+                            }
+                        });
                     }
                     else{
                         showMessage("Error",task.getException().getLocalizedMessage());
                     }
                 }
-            });*/
-            Intent intent = new Intent(this, ViewEvents.class);
-            startActivity(intent);
+            });
+
         }
         else {
             Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();

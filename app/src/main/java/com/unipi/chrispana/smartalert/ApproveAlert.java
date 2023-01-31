@@ -226,8 +226,8 @@ public class ApproveAlert extends AppCompatActivity {
                     jsonObject.put("to", targetToken);
 
                     JSONObject data = new JSONObject();
-                    data.put("title", "this is TTTTTitle");
-                    data.put("content", "AND BVODY");
+                    data.put("title", "This is a title");
+                    data.put("content", "This is content");
 
                     jsonObject.put("data", data);
 

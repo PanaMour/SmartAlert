@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -36,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     Button login;
     EditText email, password;
     FirebaseAuth mAuth;
-
+    String token = "";
+    FirebaseDatabase database;
+    DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         login = findViewById(R.id.loginbutton);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         askForLocationPermisson();
-
         email = findViewById(R.id.insertEmail);
         password = findViewById(R.id.insertPassword);
         mAuth = FirebaseAuth.getInstance();
@@ -55,15 +58,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            System.out.println("NOPE");
+                            System.out.println("Could not access the token");
                             return;
                         }
 
                         // Get new FCM registration token
-                        String token = task.getResult();
+                        token = task.getResult();
 
                         // Log and toast
-                        System.out.println("HERE IS THE TOKEN: "+token);
+                        System.out.println("Here is the Token: "+token);
                         //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -103,19 +106,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
 
-    public void signup(View view){
-        mAuth.createUserWithEmailAndPassword(email.getText().toString(),password.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            showMessage("Success!","User created.");
-                        }
-                        else{
-                            showMessage("Error",task.getException().getLocalizedMessage());
-                        }
-                    }
-                });
+    public void register(View view){
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION )== PackageManager.PERMISSION_GRANTED) {

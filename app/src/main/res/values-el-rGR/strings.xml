@@ -17,4 +17,8 @@
     <string name="reject">Απόρριψη</string>
     <string name="accept">Αποδοχή</string>
     <string name="checkBox">Αποστολή Οδηγιών Παρόμοιων Περιστατικών</string>
+    <string name="password">Κωδικός Πρόσβασης</string>
+    <string name="register">Εγγραφή</string>
+    <string name="confirmPassword">Επιβεβαίωση Κωδικού</string>
+    <string name="back">Πίσω</string>
 </resources>

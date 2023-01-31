@@ -16,4 +16,9 @@
     <string name="reject">Reject</string>
     <string name="accept">Accept</string>
     <string name="checkBox">Send Notification for Similar Events</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="back">Back</string>
 </resources>

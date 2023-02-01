@@ -13,10 +13,16 @@ import android.os.IBinder;
 
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class LocationService extends Service {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
+    DatabaseReference reference;
+    String uid;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -32,6 +38,11 @@ public class LocationService extends Service {
             public void onLocationChanged(Location location) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
                 System.out.println(location);
+                String loc = location.getLatitude()+ "," + location.getLongitude();
+                reference = FirebaseDatabase.getInstance().getReference("all_users").child(uid);
+                reference.child("location").setValue(loc);
+                reference.child("startTracking").setValue(false);
+                stopSelf();
             }
 
             @Override
@@ -47,6 +58,7 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        uid = intent.getStringExtra("userid");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }

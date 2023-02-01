@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         email = findViewById(R.id.insertEmail);
         password = findViewById(R.id.insertPassword);
         mAuth = FirebaseAuth.getInstance();
-
+        Intent serviceIntent = new Intent(this, DatabaseListenerService.class);
+        startService(serviceIntent);
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override

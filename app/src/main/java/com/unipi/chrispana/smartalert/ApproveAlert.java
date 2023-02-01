@@ -204,52 +204,29 @@ public class ApproveAlert extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
+                        switch (event.getText().toString()){
+                            case "Earthquake":
+                                kilometers = 150;
+                                break;
+                            case "Flood":
+                                kilometers = 100;
+                                break;
+                            case "Hurricane":
+                                kilometers = 80;
+                                break;
+                            case "Fire":
+                                kilometers = 200;
+                                break;
+                            case "Storm":
+                                kilometers = 50;
+                                break;
+                        }
                         targetToken = alertSnapshot.child("token").getValue(String.class);
+                        System.out.println("OH GEEZ RICK");
+                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
+                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
+                        //reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue();
                         reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
-                        tokens.add(targetToken);
-                    }
-                    for(String s: tokens){
-                        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // Handle response from the server
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Handle error
-                            }
-                        }) {
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> headers = new HashMap<>();
-                                headers.put("Authorization", "key=" + API_KEY);
-                                headers.put("Content-Type", "application/json");
-                                return headers;
-                            }
-
-                            @Override
-                            public byte[] getBody() throws AuthFailureError {
-                                JSONObject jsonObject = new JSONObject();
-                                try {
-                                    jsonObject.put("to", s);
-
-                                    JSONObject data = new JSONObject();
-                                    data.put("title", "Smart Alert: " + event.getText().toString());
-                                    data.put("content", "Watch out!");
-
-                                    jsonObject.put("data", data);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                return jsonObject.toString().getBytes();
-                            }
-                        };
-
-                        RequestQueue requestQueue = Volley.newRequestQueue(ApproveAlert.this);
-                        requestQueue.add(request);
                     }
                 }
                 else {

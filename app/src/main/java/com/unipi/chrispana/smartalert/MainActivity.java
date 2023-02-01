@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         email = findViewById(R.id.insertEmail);
         password = findViewById(R.id.insertPassword);
         mAuth = FirebaseAuth.getInstance();
-        Intent serviceIntent = new Intent(this, DatabaseListenerService.class);
-        startService(serviceIntent);
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -146,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         reference.child(user.getUid()).child("token").setValue(token);
                         reference.child(user.getUid()).child("location").setValue(location);
                         Toast.makeText(MainActivity.this,"You have successfully logged in!",Toast.LENGTH_SHORT).show();
+                        Intent serviceIntent = new Intent(MainActivity.this, DatabaseListenerService.class);
+                        startService(serviceIntent);
                         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {

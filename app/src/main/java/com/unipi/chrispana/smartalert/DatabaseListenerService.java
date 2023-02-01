@@ -26,10 +26,6 @@ public class DatabaseListenerService extends Service {
     private static final int NOTIFICATION_ID = 123;
     FirebaseAuth mAuth;
     FirebaseUser user;
-
-
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
@@ -49,6 +45,9 @@ public class DatabaseListenerService extends Service {
                 if(dataSnapshot.child("startTracking").getValue(Boolean.class)){
                     Intent serviceIntent = new Intent(DatabaseListenerService.this, LocationService.class);
                     serviceIntent.putExtra("userid",user.getUid());
+                    serviceIntent.putExtra("title",dataSnapshot.child("title").getValue(String.class));
+                    serviceIntent.putExtra("eventLocation",dataSnapshot.child("eventLocation").getValue(String.class));
+                    serviceIntent.putExtra("token",dataSnapshot.child("token").getValue(String.class));
                     startService(serviceIntent);
                 }
 

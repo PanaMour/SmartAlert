@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
         login = findViewById(R.id.loginbutton);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        askForLocationPermisson();
+        askForLocationPermission();
         email = findViewById(R.id.insertEmail);
         password = findViewById(R.id.insertPassword);
         mAuth = FirebaseAuth.getInstance();
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
-    private void askForLocationPermisson(){
+    private void askForLocationPermission(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         }

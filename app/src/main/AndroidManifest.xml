@@ -19,6 +19,9 @@
         android:theme="@style/Theme.SmartAlert"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
@@ -31,15 +34,16 @@
             android:name=".UserAlert"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".StartupActivity"
+            android:exported="true"> />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".LocationService"></service>
+
+        <service android:name=".LocationService" />
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
@@ -47,7 +51,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".DatabaseListenerService"></service>
+        <service android:name=".DatabaseListenerService" />
     </application>
 
 </manifest>

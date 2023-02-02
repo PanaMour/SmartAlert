@@ -222,12 +222,23 @@ public class ApproveAlert extends AppCompatActivity {
                                 break;
                         }
                         targetToken = alertSnapshot.child("token").getValue(String.class);
-                        System.out.println("OH GEEZ RICK");
                         reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
                         reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
                         //reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue();
                         reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
                     }
+                    reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
+                                    reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(false);
+                                }
+                            }else {
+                                Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
+                            }
+                        }
+                    });
                 }
                 else {
                     Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));

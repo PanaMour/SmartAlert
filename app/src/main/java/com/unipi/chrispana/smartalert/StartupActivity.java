@@ -3,11 +3,13 @@ package com.unipi.chrispana.smartalert;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Dialog;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +29,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_startup);
     }
 
@@ -55,12 +58,24 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
         }
     }
     public void startup(View view) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+
+        LocationManager locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(locationManager1 != null){
+            boolean isGPSEnabled = locationManager1.isLocationEnabled();
+            if(!isGPSEnabled){
+                Toast.makeText(this, "Please turn on your Location!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+                return;
+            }
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             if (notificationManager != null) {
                 boolean areNotificationsEnabled = notificationManager.areNotificationsEnabled();
                 if (!areNotificationsEnabled) {
+                    Toast.makeText(this, "Please grant access to Notifications permission!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                     intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
                     startActivity(intent);
@@ -70,13 +85,10 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
                     startActivity(intent);
                 }
             }
-
         } else {
             Toast.makeText(this, "Please enable the 'Allow all the time' field in Location permission!", Toast.LENGTH_LONG).show();
 
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts("package", getPackageName(), null);
-            intent.setData(uri);
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
     }

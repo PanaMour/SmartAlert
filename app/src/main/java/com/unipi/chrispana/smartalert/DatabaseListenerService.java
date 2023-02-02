@@ -3,6 +3,7 @@ package com.unipi.chrispana.smartalert;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -69,10 +70,16 @@ public class DatabaseListenerService extends Service {
     }
 
     private Notification createNotification() {
+        Intent intent = new Intent(this, UserAlert.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "location_service_channel")
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Location Service")
-                .setContentText("Running");
+                .setContentTitle("Listening for Alerts")
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .setContentIntent(pendingIntent)
+                .setContentText("Running...");
         return builder.build();
     }
     private void createNotificationChannel() {

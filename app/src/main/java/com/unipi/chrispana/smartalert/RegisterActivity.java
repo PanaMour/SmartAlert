@@ -13,11 +13,13 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -112,7 +114,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                         reference.child(user.getUid()).child("location").setValue(location);
                                         reference.child(user.getUid()).child("startTracking").setValue(false);
                                         reference.child(user.getUid()).child("role").setValue("user");
-                                        showMessage("Success!", "User registered.");
+                                        Toast.makeText(RegisterActivity.this,"Success! User registered.", Toast.LENGTH_SHORT).show();
+                                        onBackPressed();
                                     } else {
                                         showMessage("Error", task.getException().getLocalizedMessage());
                                     }

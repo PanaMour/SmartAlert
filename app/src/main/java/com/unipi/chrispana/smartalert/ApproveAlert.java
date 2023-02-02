@@ -204,35 +204,38 @@ public class ApproveAlert extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
-                        switch (event.getText().toString()){
-                            case "Earthquake":
-                                kilometers = 150;
-                                break;
-                            case "Flood":
-                                kilometers = 100;
-                                break;
-                            case "Hurricane":
-                                kilometers = 80;
-                                break;
-                            case "Fire":
-                                kilometers = 200;
-                                break;
-                            case "Storm":
-                                kilometers = 50;
-                                break;
+                        if (alertSnapshot.child("role").getValue(String.class).equals("user")) {
+                            switch (event.getText().toString()) {
+                                case "Earthquake":
+                                    kilometers = 150;
+                                    break;
+                                case "Flood":
+                                    kilometers = 100;
+                                    break;
+                                case "Hurricane":
+                                    kilometers = 80;
+                                    break;
+                                case "Fire":
+                                    kilometers = 200;
+                                    break;
+                                case "Storm":
+                                    kilometers = 50;
+                                    break;
+                            }
+                            targetToken = alertSnapshot.child("token").getValue(String.class);
+                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
+                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
+                            //reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue();
+                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
                         }
-                        targetToken = alertSnapshot.child("token").getValue(String.class);
-                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
-                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
-                        //reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue();
-                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
                     }
                     reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if (task.isSuccessful()) {
                                 for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
-                                    reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(false);
+                                    if(alertSnapshot.child("role").getValue(String.class).equals("user"))
+                                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(false);
                                 }
                             }else {
                                 Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));

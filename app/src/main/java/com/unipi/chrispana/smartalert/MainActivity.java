@@ -145,8 +145,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         reference.child(user.getUid()).child("token").setValue(token);
                         reference.child(user.getUid()).child("location").setValue(location);
                         Toast.makeText(MainActivity.this,"You have successfully logged in!",Toast.LENGTH_SHORT).show();
-                        Intent serviceIntent = new Intent(MainActivity.this, DatabaseListenerService.class);
-                        startService(serviceIntent);
                         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -154,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                                         if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
                                             if(alertSnapshot.child("role").getValue(String.class).equals("user")){
+                                                Intent serviceIntent = new Intent(MainActivity.this, DatabaseListenerService.class);
+                                                startService(serviceIntent);
                                                 Intent intent = new Intent(MainActivity.this, UserAlert.class);
                                                 startActivity(intent);
                                                 return;

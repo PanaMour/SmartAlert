@@ -123,6 +123,7 @@ public class LocationService extends Service {
                     RequestQueue requestQueue = Volley.newRequestQueue(LocationService.this);
                     requestQueue.add(request);
                 }
+                locationManager.removeUpdates(locationListener);
                 stopSelf();
             }
 

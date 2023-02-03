@@ -16,6 +16,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -80,6 +81,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     int kilometers = 0;
     private static final int TIME_INTERVAL = 2000; // 2 seconds
     private long mBackPressed;
+    LocationListener locationListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,10 +108,10 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
-                    public void onActivityResult(ActivityResult result){
-                        if(result.getResultCode() == Activity.RESULT_OK){
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
-                            if( data != null && data.getData() != null) {
+                            if (data != null && data.getData() != null) {
                                 imageUri = data.getData();
                                 binding.imageView.setImageURI(imageUri);
                             }
@@ -127,6 +130,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
@@ -135,6 +139,36 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
         }
         mBackPressed = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (locationListener != null)
+            locationManager.removeUpdates(locationListener);
+        System.out.println("App was paused");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        if(locationManager != null){
+            boolean isGPSEnabled = locationManager.isLocationEnabled();
+            if(isGPSEnabled && locationListener!=null){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+            }
+        }
+        System.out.println("App Resumed");
     }
 
     public void uploadImage(){
@@ -189,7 +223,13 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             alertDialog.show();
         }
         else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location) {
+
+                }
+            };
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             if (loc != null) {
@@ -199,6 +239,13 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     }
 
     public void insertAlert(View view){
+        getLocation();
+        if(locationManager != null){
+            boolean isGPSEnabled = locationManager.isLocationEnabled();
+            if(!isGPSEnabled){
+                return;
+            }
+        }
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
 

@@ -40,9 +40,6 @@ public class DatabaseListenerService extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Perform actions in response to data changes
-                //sendNotification();
-                //reference.child("dssdsd").setValue("SDSDSdffddfD");
-                System.out.println("VALUEEEEEEEEEEEEEE"+dataSnapshot.child("startTracking").getValue(Boolean.class));
                 if(dataSnapshot.child("startTracking").getValue(Boolean.class)){
                     Intent serviceIntent = new Intent(DatabaseListenerService.this, LocationService.class);
                     serviceIntent.putExtra("userid",user.getUid());

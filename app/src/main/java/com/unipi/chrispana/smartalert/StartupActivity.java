@@ -19,18 +19,62 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class StartupActivity extends AppCompatActivity implements LocationListener{
 
     LocationManager locationManager;
-    String location = "";
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+    FirebaseDatabase database;
+    DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_startup);
+
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null){
+            database = FirebaseDatabase.getInstance();
+            reference = database.getReference("all_users");
+            user = mAuth.getCurrentUser();
+            reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DataSnapshot alertSnapshot : task.getResult().getChildren()) {
+                            if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
+                                if(alertSnapshot.child("role").getValue(String.class).equals("user")){
+                                    Intent serviceIntent = new Intent(StartupActivity.this, DatabaseListenerService.class);
+                                    startService(serviceIntent);
+                                    Intent intent = new Intent(StartupActivity.this, UserAlert.class);
+                                    startActivity(intent);
+                                    return;
+                                }
+                                else if(alertSnapshot.child("role").getValue(String.class).equals("employee")){
+                                    Intent intent = new Intent(StartupActivity.this, ViewEvents.class);
+                                    startActivity(intent);
+                                    return;
+                                }
+                            }
+                        }
+                    }else {
+                        Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
+                    }
+                }
+            });
+        }else
+            setContentView(R.layout.activity_startup);
     }
 
     public void getLocation(){
@@ -88,7 +132,9 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
         } else {
             Toast.makeText(this, "Please enable the 'Allow all the time' field in Location permission!", Toast.LENGTH_LONG).show();
 
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
             startActivity(intent);
         }
     }

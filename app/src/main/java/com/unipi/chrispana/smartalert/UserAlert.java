@@ -78,7 +78,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     public static final double earthRadius = 6371.0;
     int hours = 0;
     int kilometers = 0;
-
+    private static final int TIME_INTERVAL = 2000; // 2 seconds
+    private long mBackPressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +126,15 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 someActivityResultLauncher.launch(intent);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            moveTaskToBack(true);
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        mBackPressed = System.currentTimeMillis();
     }
 
     public void uploadImage(){

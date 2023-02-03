@@ -44,12 +44,11 @@ public class ViewEvents extends AppCompatActivity {
     DatabaseReference database;
     AlertAdapter alertAdapter;
     ArrayList<AlertClass> list;
+    private static final int TIME_INTERVAL = 2000; // 2 seconds
+    private long mBackPressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //mAuth = FirebaseAuth.getInstance();
-        //System.out.println(mAuth.getCurrentUser().getUid());
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -79,5 +78,15 @@ public class ViewEvents extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            moveTaskToBack(true);
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        mBackPressed = System.currentTimeMillis();
     }
 }

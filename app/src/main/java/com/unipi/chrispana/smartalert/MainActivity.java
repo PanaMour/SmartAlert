@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                                         if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
                                             if(alertSnapshot.child("role").getValue(String.class).equals("user")){
-                                                Intent serviceIntent = new Intent(MainActivity.this, DatabaseListenerService.class);
-                                                startService(serviceIntent);
                                                 Intent intent = new Intent(MainActivity.this, UserAlert.class);
                                                 startActivity(intent);
                                                 return;

@@ -23,8 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DatabaseListenerService extends Service {
 
-    final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
-    private static final int NOTIFICATION_ID = 123;
     FirebaseAuth mAuth;
     FirebaseUser user;
     @Override
@@ -33,7 +31,9 @@ public class DatabaseListenerService extends Service {
         startForeground(1, createNotification());
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
+        if (intent != null && "CLOSE".equals(intent.getAction())) {
+            stopSelf();
+        }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("all_users").child(user.getUid());
         // Listen to the database and perform actions when data changes
         reference.addValueEventListener(new ValueEventListener() {
@@ -70,19 +70,21 @@ public class DatabaseListenerService extends Service {
         Intent intent = new Intent(this, UserAlert.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_IMMUTABLE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "location_service_channel")
+        Intent cancelIntent = new Intent(this, CancelReceiver.class);
+        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, 0, cancelIntent,PendingIntent.FLAG_MUTABLE );
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "listener_service_channel")
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("Listening for Alerts")
+                .setContentTitle("Listening for Alerts...")
                 .setOngoing(true)
-                .setAutoCancel(false)
                 .setContentIntent(pendingIntent)
-                .setContentText("Running...");
+                .addAction(R.drawable.ic_launcher_background, "Stop Listening", cancelPendingIntent);
         return builder.build();
     }
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("location_service_channel",
-                    "Location Service Channel",
+            NotificationChannel channel = new NotificationChannel("listener_service_channel",
+                    "Listener Service Channel",
                     NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);

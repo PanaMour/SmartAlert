@@ -42,7 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <receiver
+            android:name=".CancelReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="CLOSE" />
+            </intent-filter>
+        </receiver>
         <service android:name=".LocationService" />
         <service
             android:name=".MyFirebaseMessagingService"

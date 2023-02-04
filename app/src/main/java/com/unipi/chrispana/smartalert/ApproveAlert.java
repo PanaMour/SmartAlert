@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,10 +65,11 @@ public class ApproveAlert extends AppCompatActivity {
     DatabaseReference rejectReference;
     DatabaseReference acceptReference;
     StorageReference storageReference;
-    CheckBox checkBox;
+    CheckBox checkBoxSimilar, checkBoxInstructions;
     public static final double earthRadius = 6371.0;
     int hours = 0;
     int kilometers = 0;
+    String message = "";
     AlertClass alertClass;
     String targetToken = "";
     final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
@@ -104,7 +106,14 @@ public class ApproveAlert extends AppCompatActivity {
         image = findViewById(R.id.imageApprove);
         accept = findViewById(R.id.acceptButton);
         reject = findViewById(R.id.rejectButton);
-        checkBox = findViewById(R.id.notificationAll);
+        checkBoxSimilar = findViewById(R.id.notificationAll);
+        checkBoxInstructions = findViewById(R.id.customInstructions);
+        checkBoxInstructions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                instructions.setEnabled(isChecked);
+            }
+        });
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -136,7 +145,6 @@ public class ApproveAlert extends AppCompatActivity {
             }
         });
     }
-
     public void accept(View view){
         /*database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
@@ -172,7 +180,7 @@ public class ApproveAlert extends AppCompatActivity {
                                 alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent()) &&
                                 isWithinKilometers(alertSnapshot.child("location").getValue(String.class),alertClass.getLocation(),kilometers)&&
                                 !alertSnapshot.child("id").getValue(String.class).equals(alertClass.getId())){
-                            if(!checkBox.isChecked())
+                            if(!checkBoxSimilar.isChecked())
                                 reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
                             else{
                                 System.out.println(alertSnapshot);
@@ -195,8 +203,6 @@ public class ApproveAlert extends AppCompatActivity {
     }
 
     private void sendNotification(){
-        ArrayList<String> tokens = new ArrayList<String>();
-        String url = "https://fcm.googleapis.com/fcm/send";
         reference = database.getReference("all_users");
 
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -208,24 +214,32 @@ public class ApproveAlert extends AppCompatActivity {
                             switch (event.getText().toString()) {
                                 case "Earthquake":
                                     kilometers = 150;
+                                    message = getString(R.string.alertEarthquake);
                                     break;
                                 case "Flood":
                                     kilometers = 100;
+                                    message = getString(R.string.alertFlood);
                                     break;
                                 case "Hurricane":
                                     kilometers = 80;
+                                    message = getString(R.string.alertHurricane);
                                     break;
                                 case "Fire":
                                     kilometers = 200;
+                                    message = getString(R.string.alertFire);
                                     break;
                                 case "Storm":
                                     kilometers = 50;
+                                    message = getString(R.string.alertStorm);
                                     break;
                             }
                             targetToken = alertSnapshot.child("token").getValue(String.class);
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
-                            //reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue();
+                            if(checkBoxInstructions.isChecked())
+                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText());
+                            else
+                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(message);
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
                         }
                     }

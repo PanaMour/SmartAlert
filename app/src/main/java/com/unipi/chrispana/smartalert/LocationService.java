@@ -108,7 +108,7 @@ public class LocationService extends Service {
 
                                 JSONObject data = new JSONObject();
                                 data.put("title", title);
-                                data.put("content", "Watch out!");
+                                data.put("content", message);
 
                                 jsonObject.put("data", data);
 
@@ -144,6 +144,7 @@ public class LocationService extends Service {
         title = intent.getStringExtra("title");
         eventLocation = intent.getStringExtra("eventLocation");
         targetToken = intent.getStringExtra("token");
+        message = intent.getStringExtra("message");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }

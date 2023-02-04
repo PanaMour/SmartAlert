@@ -46,6 +46,7 @@ public class DatabaseListenerService extends Service {
                     serviceIntent.putExtra("title",dataSnapshot.child("title").getValue(String.class));
                     serviceIntent.putExtra("eventLocation",dataSnapshot.child("eventLocation").getValue(String.class));
                     serviceIntent.putExtra("token",dataSnapshot.child("token").getValue(String.class));
+                    serviceIntent.putExtra("message",dataSnapshot.child("message").getValue(String.class));
                     startService(serviceIntent);
                 }
 

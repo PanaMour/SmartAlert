@@ -8,12 +8,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="77dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -238,10 +240,19 @@
                             android:text="@string/earthquake"
                             android:textSize="25sp"
                             tools:ignore="InefficientWeight,RtlHardcoded" />
+
                     </LinearLayout>
                 </ScrollView>
 
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/customInstructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/customInstructions"
+                android:textSize="18dp"
+                android:textStyle="bold|italic" />
 
             <EditText
                 android:id="@+id/addInstuctions"
@@ -251,8 +262,9 @@
                 android:layout_marginTop="10sp"
                 android:layout_marginEnd="10dp"
                 android:ems="10"
+                android:enabled="false"
                 android:gravity="start|top"
-                android:hint="Add Instructions"
+                android:hint="@string/addInstructions"
                 android:inputType="textMultiLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -302,7 +314,6 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

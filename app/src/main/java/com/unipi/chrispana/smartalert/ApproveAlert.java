@@ -237,7 +237,7 @@ public class ApproveAlert extends AppCompatActivity {
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
                             if(checkBoxInstructions.isChecked())
-                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText());
+                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText().toString());
                             else
                                 reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(message);
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);

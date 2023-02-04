@@ -75,11 +75,11 @@ public class DatabaseListenerService extends Service {
         PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, 0, cancelIntent,PendingIntent.FLAG_MUTABLE );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "listener_service_channel")
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setSmallIcon(R.drawable.logofg)
                 .setContentTitle("Listening for Alerts...")
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
-                .addAction(R.drawable.ic_launcher_background, "Stop Listening", cancelPendingIntent);
+                .addAction(R.drawable.logofg, "Stop Listening", cancelPendingIntent);
         return builder.build();
     }
     private void createNotificationChannel() {

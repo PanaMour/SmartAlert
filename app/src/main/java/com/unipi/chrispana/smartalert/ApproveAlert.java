@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
@@ -73,11 +74,14 @@ public class ApproveAlert extends AppCompatActivity {
     AlertClass alertClass;
     String targetToken = "";
     final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
+    Resources resources;
+    String eventENG;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approve_alert);
+        resources = getResources();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
         event = findViewById(R.id.eventContent);
@@ -123,7 +127,10 @@ public class ApproveAlert extends AppCompatActivity {
                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                         if(alertSnapshot.child("id").getValue().equals(getIntent().getStringExtra("id"))) {
                             alertClass = alertSnapshot.getValue(AlertClass.class);
-                            event.setText(alertSnapshot.child("event").getValue(String.class));
+                            int stringResourceId = resources.getIdentifier(alertSnapshot.child("event").getValue(String.class), "string", "com.unipi.chrispana.smartalert");
+                            String associatedString = resources.getString(stringResourceId);
+                            eventENG = alertSnapshot.child("event").getValue(String.class);
+                            event.setText(associatedString);
                             String loc = alertSnapshot.child("location").getValue(String.class);
                             try {
                                 String city = geocoder.getFromLocation(parseDouble(loc.substring(0,loc.indexOf(","))),parseDouble(loc.substring(loc.indexOf(",")+1,loc.length())),1).get(0).getAddressLine(0);
@@ -204,14 +211,13 @@ public class ApproveAlert extends AppCompatActivity {
 
     private void sendNotification(){
         reference = database.getReference("all_users");
-
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                         if (alertSnapshot.child("role").getValue(String.class).equals("user")) {
-                            switch (event.getText().toString()) {
+                            switch (eventENG) {
                                 case "Earthquake":
                                     kilometers = 150;
                                     message = getString(R.string.alertEarthquake);
@@ -235,7 +241,7 @@ public class ApproveAlert extends AppCompatActivity {
                             }
                             targetToken = alertSnapshot.child("token").getValue(String.class);
                             reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
-                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(event.getText().toString());
+                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(eventENG);
                             if(checkBoxInstructions.isChecked())
                                 reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText().toString());
                             else

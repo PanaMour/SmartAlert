@@ -1,17 +1,22 @@
 <resources>
     <string name="app_name" translatable="false">SmartAlert</string>
     <string name="comments">Comments</string>
+    <string name="Earthquake">Earthquake</string>
+    <string name="Flood">Flood</string>
+    <string name="Fire">Fire</string>
+    <string name="Hurricane">Hurricane</string>
+    <string name="Storm">Storm</string>
     <string name="earthquake">Earthquake</string>
     <string name="flood">Flood</string>
     <string name="fire">Fire</string>
     <string name="hurricane">Hurricane</string>
+    <string name="storm">Storm</string>
     <string name="location">Location:</string>
     <string name="insertAlert">Insert Alert</string>
     <string name="selectImage">Select Image</string>
     <string name="loginButton">Login</string>
     <string name="event">Event:</string>
     <string name="time">Date:</string>
-    <string name="storm">Storm</string>
     <string name="count">Reported Incidents:</string>
     <string name="reject">Reject</string>
     <string name="accept">Accept</string>

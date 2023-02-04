@@ -1,12 +1,14 @@
 package com.unipi.chrispana.smartalert;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -46,19 +48,24 @@ public class ViewEvents extends AppCompatActivity {
     ArrayList<AlertClass> list;
     private static final int TIME_INTERVAL = 2000; // 2 seconds
     private long mBackPressed;
+    Resources resources;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("View Events");
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.logofg);
         recyclerView = findViewById(R.id.eventList);
         database = FirebaseDatabase.getInstance().getReference("alerts");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-        alertAdapter = new AlertAdapter(this,list);
+        resources = getResources();
+        alertAdapter = new AlertAdapter(this,list,resources);
         recyclerView.setAdapter(alertAdapter);
 
         database.addValueEventListener(new ValueEventListener() {

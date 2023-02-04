@@ -1,10 +1,12 @@
 package com.unipi.chrispana.smartalert;
 
+import static androidx.browser.customtabs.CustomTabsClient.getPackageName;
 import static java.lang.Double.parseDouble;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
@@ -36,11 +38,12 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
     StorageReference storageReference;
     Context context;
     ArrayList<AlertClass> list;
+    Resources resources;
 
-
-    public AlertAdapter(Context context, ArrayList<AlertClass> list) {
+    public AlertAdapter(Context context, ArrayList<AlertClass> list, Resources resources) {
         this.context = context;
         this.list = list;
+        this.resources = resources;
     }
 
     @NonNull
@@ -54,7 +57,10 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         AlertClass alertClass = list.get(position);
-        holder.event.setText(alertClass.getEvent());
+        int stringResourceId = resources.getIdentifier(alertClass.getEvent(), "string", "com.unipi.chrispana.smartalert");
+        String associatedString = resources.getString(stringResourceId);
+
+        holder.event.setText(associatedString);
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         String loc = alertClass.getLocation();
         String city;

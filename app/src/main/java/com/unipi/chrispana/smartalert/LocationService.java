@@ -107,7 +107,7 @@ public class LocationService extends Service {
                                 jsonObject.put("to", targetToken);
 
                                 JSONObject data = new JSONObject();
-                                data.put("title", title);
+                                data.put("title", "Watch out! "+title+"!");
                                 data.put("content", message);
 
                                 jsonObject.put("data", data);

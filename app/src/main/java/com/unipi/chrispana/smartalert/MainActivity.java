@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     DatabaseReference reference;
     FirebaseUser user;
     String location = "";
+    private static final int TIME_INTERVAL = 2000; // 2 seconds
+    private long mBackPressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,5 +204,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 .setTitle(title)
                 .setMessage(text)
                 .show();
+    }
+    @Override
+    public void onBackPressed() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            moveTaskToBack(true);
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        mBackPressed = System.currentTimeMillis();
     }
 }

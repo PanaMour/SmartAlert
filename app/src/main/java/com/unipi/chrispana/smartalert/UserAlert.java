@@ -28,6 +28,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -82,13 +84,14 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     private static final int TIME_INTERVAL = 2000; // 2 seconds
     private long mBackPressed;
     LocationListener locationListener;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityUserAlertBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        mAuth = FirebaseAuth.getInstance();
         events = findViewById(R.id.insertEvent);
         String eq = getString(R.string.earthquake);
         String flood = getString(R.string.flood);
@@ -148,7 +151,26 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             locationManager.removeUpdates(locationListener);
         System.out.println("App was paused");
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            /*Intent closeService = new Intent(UserAlert.this, DatabaseListenerService.class);
+            closeService.setAction("CLOSE");
+            startService(closeService);*/
+            mAuth.signOut();
+            Intent intent = new Intent(UserAlert.this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onResume() {
         super.onResume();

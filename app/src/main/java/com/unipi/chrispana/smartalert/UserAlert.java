@@ -160,11 +160,11 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout) {
-            /*Intent closeService = new Intent(UserAlert.this, DatabaseListenerService.class);
+            Intent closeService = new Intent(this, DatabaseListenerService.class);
             closeService.setAction("CLOSE");
-            startService(closeService);*/
+            startService(closeService);
             mAuth.signOut();
-            Intent intent = new Intent(UserAlert.this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
             return true;

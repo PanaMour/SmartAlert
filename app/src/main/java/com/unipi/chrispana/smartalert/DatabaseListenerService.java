@@ -33,6 +33,7 @@ public class DatabaseListenerService extends Service {
         user = mAuth.getCurrentUser();
         if (intent != null && "CLOSE".equals(intent.getAction())) {
             stopSelf();
+            return Service.START_STICKY;
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("all_users").child(user.getUid());
         // Listen to the database and perform actions when data changes

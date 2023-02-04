@@ -100,6 +100,9 @@ public class ViewEvents extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout) {
+            Intent closeService = new Intent(this, DatabaseListenerService.class);
+            closeService.setAction("CLOSE");
+            startService(closeService);
             mAuth.signOut();
             Intent intent = new Intent(ViewEvents.this, MainActivity.class);
             startActivity(intent);

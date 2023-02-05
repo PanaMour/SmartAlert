@@ -13,7 +13,7 @@
     <string name="storm">Storm</string>
     <string name="location">Location:</string>
     <string name="insertAlert">Insert Alert</string>
-    <string name="selectImage">Select Image</string>
+    <string name="selectImage">SELECT IMAGE</string>
     <string name="loginButton">Login</string>
     <string name="event">Event:</string>
     <string name="time">Date:</string>
@@ -24,9 +24,9 @@
     <string name="addInstructions">Add instructions</string>
     <string name="email" translatable="false">Email</string>
     <string name="password">Password</string>
-    <string name="register">Register</string>
+    <string name="register">REGISTER</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="back">Back</string>
+    <string name="back">BACK</string>
     <string name="viewEvents">View Events</string>
     <string name="userAlert">Insert Alert</string>
     <string name="approveAlert">Approve Alert</string>

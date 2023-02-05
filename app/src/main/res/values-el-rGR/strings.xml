@@ -7,8 +7,8 @@
     <string name="fire">Πυρκαγιά</string>
     <string name="hurricane">Ανεμοστρόβιλος</string>
     <string name="location">Τοποθεσία:</string>
-    <string name="insertAlert">Εισαγωγή Περιστατικού</string>
-    <string name="selectImage">Επιλογή Εικόνας</string>
+    <string name="insertAlert">ΕΙΣΑΓΩΓΗ ΠΕΡΙΣΤΑΤΙΚΟΥ</string>
+    <string name="selectImage">ΕΠΙΛΟΓΗ ΕΙΚΟΝΑΣ</string>
     <string name="loginButton">Σύνδεση</string>
     <string name="event">Περιστατικό:</string>
     <string name="time">Ημερομηνία:</string>
@@ -18,9 +18,9 @@
     <string name="accept">ΑΠΟΔΟΧΗ</string>
     <string name="checkBox">Αποστολή Οδηγιών Παρόμοιων Περιστατικών</string>
     <string name="password">Κωδικός Πρόσβασης</string>
-    <string name="register">Εγγραφή</string>
+    <string name="register">ΕΓΓΡΑΦΗ</string>
     <string name="confirmPassword">Επιβεβαίωση Κωδικού</string>
-    <string name="back">Πίσω</string>
+    <string name="back">ΠΙΣΩ</string>
     <string name="viewEvents">Προβολή Περιστατικών</string>
     <string name="userAlert">Εισαγωγή Περιστατικού</string>
     <string name="customInstructions">Πατήστε για να προσθέσετε οδηγίες</string>

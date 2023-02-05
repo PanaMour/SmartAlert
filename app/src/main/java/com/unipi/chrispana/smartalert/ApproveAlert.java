@@ -14,6 +14,8 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,11 +80,13 @@ public class ApproveAlert extends AppCompatActivity {
     final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
     Resources resources;
     String eventENG;
+    FirebaseAuth mAuth;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approve_alert);
+        mAuth = FirebaseAuth.getInstance();
         resources = getResources();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("alerts");
@@ -377,5 +383,25 @@ public class ApproveAlert extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            Intent closeService = new Intent(this, DatabaseListenerService.class);
+            closeService.setAction("CLOSE");
+            startService(closeService);
+            mAuth.signOut();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

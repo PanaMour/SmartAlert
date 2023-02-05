@@ -52,4 +52,5 @@
     <string name="toastFailUp">Απέτυχε η μεταφόρτωση!</string>
     <string name="toastSucAlert">Η ειδοποίηση στάλθηκε επιτυχώς!</string>
     <string name="userInsertAlert">ΕΙΣΑΓΩΓΗ ΠΕΡΙΣΤΑΤΙΚΟΥ</string>
+    <string name="countStatistics">"Συμβάντα: "</string>
 </resources>

@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,5 +84,10 @@ public class ViewStatistics extends AppCompatActivity {
         Intent serviceIntent = new Intent(ViewStatistics.this, DatabaseListenerService.class);
         startService(serviceIntent);
         System.out.println("App Resumed");
+    }
+
+    public void insertAlert(View view){
+        Intent intent = new Intent(this, UserAlert.class);
+        startActivity(intent);
     }
 }

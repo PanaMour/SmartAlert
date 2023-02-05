@@ -55,7 +55,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
                         for (DataSnapshot alertSnapshot : task.getResult().getChildren()) {
                             if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
                                 if(alertSnapshot.child("role").getValue(String.class).equals("user")){
-                                    Intent intent = new Intent(StartupActivity.this, UserAlert.class);
+                                    Intent intent = new Intent(StartupActivity.this, ViewStatistics.class);
                                     startActivity(intent);
                                     return;
                                 }

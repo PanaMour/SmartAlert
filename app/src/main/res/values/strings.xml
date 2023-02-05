@@ -52,4 +52,6 @@
     <string name="toastFailUp">Failed to upload!</string>
     <string name="toastSucAlert">Alert has been sent successfully!</string>
     <string name="userInsertAlert">INSERT ALERT</string>
+    <string name="countStatistics">Incidents: </string>
+    <string name="zero" translatable="false">0</string>
 </resources>

@@ -82,8 +82,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
     public static final double earthRadius = 6371.0;
     int hours = 0;
     int kilometers = 0;
-    private static final int TIME_INTERVAL = 2000; // 2 seconds
-    private long mBackPressed;
     LocationListener locationListener;
     FirebaseAuth mAuth;
 
@@ -135,16 +133,6 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 someActivityResultLauncher.launch(intent);
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
-            moveTaskToBack(true);
-        } else {
-            Toast.makeText(getBaseContext(), getString(R.string.toastBackAgain), Toast.LENGTH_SHORT).show();
-        }
-        mBackPressed = System.currentTimeMillis();
     }
 
     @Override

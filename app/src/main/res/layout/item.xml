@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,14 +14,16 @@
         android:layout_height="136dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/insert_photo_here" />
+        app:srcCompat="@drawable/insert_photo_here"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="220dp"
         android:layout_height="136dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded,TextSizeCheck">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,7 +40,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="@string/earthquake"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="RtlHardcoded" />
 
         </LinearLayout>
 
@@ -55,7 +59,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="37.11,39.9"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 
@@ -74,7 +79,8 @@
                 android:layout_marginLeft="8dp"
                 android:text="18"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
 
         </LinearLayout>
 

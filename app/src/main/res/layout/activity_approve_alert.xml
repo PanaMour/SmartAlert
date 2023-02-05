@@ -58,23 +58,32 @@
                 app:layout_constraintVertical_bias="0.04"
                 tools:ignore="NotSibling,TextSizeCheck">
 
-                <TextView
-                    android:id="@+id/eventTitle"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/event"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    tools:ignore="UselessParent">
 
-                <TextView
-                    android:id="@+id/eventContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:layout_weight="1"
-                    android:text="@string/earthquake"
-                    android:textSize="25sp"
-                    tools:ignore="InefficientWeight,RtlHardcoded" />
+                    <TextView
+                        android:id="@+id/eventTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/event"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/eventContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/eventTitle"
+                        android:layout_weight="1"
+                        android:textSize="25sp"
+                        tools:ignore="InefficientWeight,ObsoleteLayoutParam,RtlHardcoded" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -114,9 +123,8 @@
                             android:id="@+id/locationContent"
                             android:layout_width="wrap_content"
                             android:layout_height="200dp"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_weight="1"
-                            android:text="@string/earthquake"
                             android:textSize="25sp"
                             tools:ignore="InefficientWeight,RtlHardcoded" />
                     </LinearLayout>
@@ -140,23 +148,32 @@
                 app:layout_constraintVertical_bias="0.0"
                 tools:ignore="TextSizeCheck">
 
-                <TextView
-                    android:id="@+id/timestampTitle"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/time"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    tools:ignore="UselessParent">
 
-                <TextView
-                    android:id="@+id/timestampContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:layout_weight="1"
-                    android:text="@string/earthquake"
-                    android:textSize="25sp"
-                    tools:ignore="InefficientWeight,RtlHardcoded" />
+                    <TextView
+                        android:id="@+id/timestampTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/time"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/timestampContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toEndOf="@+id/timestampTitle"
+                        android:layout_weight="1"
+                        android:textSize="25sp"
+                        tools:ignore="InefficientWeight,ObsoleteLayoutParam,RtlHardcoded" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -187,9 +204,8 @@
                     android:id="@+id/countContent"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:text="@string/earthquake"
                     android:textSize="25sp"
                     tools:ignore="InefficientWeight,RtlHardcoded" />
             </LinearLayout>
@@ -232,12 +248,10 @@
                             android:id="@+id/commentsContent"
                             android:layout_width="231dp"
                             android:layout_height="211dp"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="0dp"
                             android:layout_weight="1"
-                            android:text="@string/earthquake"
                             android:textSize="25sp"
                             tools:ignore="InefficientWeight,RtlHardcoded" />
 
@@ -252,7 +266,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/customInstructions"
                 android:textSize="18dp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold|italic"
+                tools:ignore="SpUsage,TextSizeCheck,VisualLintButtonSize" />
 
             <EditText
                 android:id="@+id/addInstuctions"
@@ -276,8 +291,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/checkBox"
-                android:textSize="18dp"
-                android:textStyle="bold|italic" />
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                tools:ignore="VisualLintButtonSize" />
 
             <LinearLayout
                 android:layout_width="384dp"

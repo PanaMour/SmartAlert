@@ -67,7 +67,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         try {
             city = geocoder.getFromLocation(parseDouble(loc.substring(0,loc.indexOf(","))),parseDouble(loc.substring(loc.indexOf(",")+1,loc.length())),1).get(0).getLocality();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            city = loc;
         }
         holder.location.setText(city);
         holder.time.setText(alertClass.getTimestamp());

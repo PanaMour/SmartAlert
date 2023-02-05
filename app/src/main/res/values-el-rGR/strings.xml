@@ -21,6 +21,8 @@
     <string name="register">Εγγραφή</string>
     <string name="confirmPassword">Επιβεβαίωση Κωδικού</string>
     <string name="back">Πίσω</string>
+    <string name="viewEvents">Προβολή Περιστατικών</string>
+    <string name="userAlert">Εισαγωγή Περιστατικού</string>
     <string name="customInstructions">Πατήστε για να προσθέσετε οδηγίες</string>
     <string name="addInstructions">Προσθέστε οδηγίες</string>
     <string name="alertEarthquake">Καλυφθείτε και κρατηθείτε. Μείνετε μακριά από παράθυρα και αντικείμενα που μπορεί να πέσουν. Εκκενώστε εάν σας ζητηθεί να το κάνετε. Αναζητήστε καταφύγιο μέχρι να σταματήσει ο σεισμός.</string>
@@ -33,4 +35,21 @@
     <string name="Fire">Φωτιά</string>
     <string name="Hurricane">Τυφώνας</string>
     <string name="Storm">Καταιγίδα</string>
+    <string name="approveAlert">Έλεγχος Περιστατικού</string>
+    <string name="logout">ΑΠΟΣΥΝΔΕΣΗ</string>
+    <string name="viewStatistics">Προβολή Στατιστικών</string>
+    <string name="mainActivity">Αρχική Σελίδα</string>
+    <string name="registerActivity">Εγγραφή</string>
+    <string name="toastGrantLocation">Παρακαλώ δώστε πρόσβαση στη Τοποθεσία!</string>
+    <string name="toastSucLogIn">Συνδεθήκατε επιτυχώς!</string>
+    <string name="toastBackAgain">Πατήστε \'πίσω\' για να βγείτε από την εφαρμογή.</string>
+    <string name="toastSucLogout">Αποσυνδεθήκατε επιτυχώς!</string>
+    <string name="toastSucUserReg">Ο χρήστης δημιουργήθηκε επιτυχώς!</string>
+    <string name="toastLocOn">Παρακαλώ ανοίξτε την Τοποθεσία σας!</string>
+    <string name="toastNotifOn">Παρακαλώ δώστε πρόσβαση στις Ειδοποιήσεις!</string>
+    <string name="toastAllowATT">Παρακαλώ ενεργοποιήστε το πεδίο \'Να επιτρέπεται πάντα\' της Τοποθεσίας!</string>
+    <string name="toastSucUp">Αναρτήθηκε επιτυχώς!</string>
+    <string name="toastFailUp">Απέτυχε η μεταφόρτωση!</string>
+    <string name="toastSucAlert">Η ειδοποίηση στάλθηκε επιτυχώς!</string>
+    <string name="userInsertAlert">ΕΙΣΑΓΩΓΗ ΠΕΡΙΣΤΑΤΙΚΟΥ</string>
 </resources>

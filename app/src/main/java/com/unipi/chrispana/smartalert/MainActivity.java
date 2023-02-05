@@ -3,6 +3,7 @@ package com.unipi.chrispana.smartalert;
 import static java.lang.Double.parseDouble;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.mainActivity));
         setContentView(R.layout.activity_main);
         login = findViewById(R.id.loginbutton);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
         }else {
-            Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toastGrantLocation), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         user = mAuth.getCurrentUser();
                         reference.child(user.getUid()).child("token").setValue(token);
                         reference.child(user.getUid()).child("location").setValue(location);
-                        Toast.makeText(MainActivity.this,"You have successfully logged in!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,getString(R.string.toastSucLogIn),Toast.LENGTH_SHORT).show();
                         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                                     for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                                         if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
                                             if(alertSnapshot.child("role").getValue(String.class).equals("user")){
-                                                Intent intent = new Intent(MainActivity.this, UserAlert.class);
+                                                Intent intent = new Intent(MainActivity.this, ViewStatistics.class);
                                                 startActivity(intent);
                                                 return;
                                             }
@@ -180,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         }
         else {
-            Toast.makeText(this, "Please grant location access!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toastGrantLocation), Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);
@@ -210,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             moveTaskToBack(true);
         } else {
-            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastBackAgain), Toast.LENGTH_SHORT).show();
         }
         mBackPressed = System.currentTimeMillis();
     }

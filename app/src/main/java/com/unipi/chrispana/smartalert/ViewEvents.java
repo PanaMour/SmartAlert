@@ -60,7 +60,7 @@ public class ViewEvents extends AppCompatActivity {
         binding = ActivityViewEventsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("View Events");
+        actionBar.setTitle(getString(R.string.viewEvents));
         actionBar.setHomeButtonEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.logofg);
         recyclerView = findViewById(R.id.eventList);
@@ -106,7 +106,7 @@ public class ViewEvents extends AppCompatActivity {
             mAuth.signOut();
             Intent intent = new Intent(ViewEvents.this, MainActivity.class);
             startActivity(intent);
-            Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastSucLogout), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -116,7 +116,7 @@ public class ViewEvents extends AppCompatActivity {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             moveTaskToBack(true);
         } else {
-            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastBackAgain), Toast.LENGTH_SHORT).show();
         }
         mBackPressed = System.currentTimeMillis();
     }

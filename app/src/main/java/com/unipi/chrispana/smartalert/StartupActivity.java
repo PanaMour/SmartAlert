@@ -105,7 +105,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
         if(locationManager1 != null){
             boolean isGPSEnabled = locationManager1.isLocationEnabled();
             if(!isGPSEnabled){
-                Toast.makeText(this, "Please turn on your Location!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toastLocOn), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
                 return;
@@ -117,7 +117,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
             if (notificationManager != null) {
                 boolean areNotificationsEnabled = notificationManager.areNotificationsEnabled();
                 if (!areNotificationsEnabled) {
-                    Toast.makeText(this, "Please grant access to Notifications permission!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toastNotifOn), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                     intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
                     startActivity(intent);
@@ -128,7 +128,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
                 }
             }
         } else {
-            Toast.makeText(this, "Please enable the 'Allow all the time' field in Location permission!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toastAllowATT), Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
             Uri uri = Uri.fromParts("package", getPackageName(), null);

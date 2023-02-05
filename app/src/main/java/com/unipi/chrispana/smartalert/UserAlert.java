@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -93,6 +94,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         events = findViewById(R.id.insertEvent);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.userAlert));
         String eq = getString(R.string.earthquake);
         String flood = getString(R.string.flood);
         String hurricane = getString(R.string.hurricane);
@@ -139,7 +142,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
             moveTaskToBack(true);
         } else {
-            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastBackAgain), Toast.LENGTH_SHORT).show();
         }
         mBackPressed = System.currentTimeMillis();
     }
@@ -166,7 +169,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             mAuth.signOut();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastSucLogout), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -205,7 +208,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         binding.imageView.setImageURI(null);
-                        Toast.makeText(UserAlert.this,"Successfully Uploaded",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserAlert.this,getString(R.string.toastSucUp),Toast.LENGTH_SHORT).show();
                         if (alertDialog.isShowing())
                             alertDialog.dismiss();
                     }
@@ -214,7 +217,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                     public void onFailure(@NonNull Exception e) {
                         if (alertDialog.isShowing())
                             alertDialog.dismiss();
-                        Toast.makeText(UserAlert.this,"Failed to Upload",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserAlert.this,getString(R.string.toastFailUp),Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -320,7 +323,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 }
             });
 
-            Toast.makeText(UserAlert.this, "Alert has been sent successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserAlert.this, getString(R.string.toastSucAlert), Toast.LENGTH_SHORT).show();
             comments.setText("");
             imageUri = null;
             fileName = "";

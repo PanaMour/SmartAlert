@@ -1,6 +1,7 @@
 package com.unipi.chrispana.smartalert;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -44,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.registerActivity));
         email = findViewById(R.id.registerEmail);
         password = findViewById(R.id.registerPassword);
         confirmpassword = findViewById(R.id.confirmPassword);
@@ -114,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                         reference.child(user.getUid()).child("location").setValue(location);
                                         reference.child(user.getUid()).child("startTracking").setValue(false);
                                         reference.child(user.getUid()).child("role").setValue("user");
-                                        Toast.makeText(RegisterActivity.this,"Success! User registered.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this,getString(R.string.toastSucUserReg), Toast.LENGTH_SHORT).show();
                                         onBackPressed();
                                     } else {
                                         showMessage("Error", task.getException().getLocalizedMessage());

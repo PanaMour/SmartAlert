@@ -3,6 +3,7 @@ package com.unipi.chrispana.smartalert;
 import static java.lang.Double.parseDouble;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -77,7 +78,6 @@ public class ApproveAlert extends AppCompatActivity {
     String message = "";
     AlertClass alertClass;
     String targetToken = "";
-    final String API_KEY = "AAAAk9DnW7g:APA91bFi1U3wqq06Qr8Tcu7q_aNwZ6OljByXy6kGIB9Zw-zGbCz9Q_sChqjime6kMArS8zrpm0zv6cEsTwMkF6La9ZWtVi7XN0dVSHu0IGtgV4Qy-gkCzWlrXHDHj9860SNPnxJh4w7W";
     Resources resources;
     String eventENG;
     FirebaseAuth mAuth;
@@ -86,6 +86,8 @@ public class ApproveAlert extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approve_alert);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getString(R.string.approveAlert));
         mAuth = FirebaseAuth.getInstance();
         resources = getResources();
         database = FirebaseDatabase.getInstance();
@@ -399,7 +401,7 @@ public class ApproveAlert extends AppCompatActivity {
             mAuth.signOut();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-            Toast.makeText(getBaseContext(), "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.toastSucLogout), Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

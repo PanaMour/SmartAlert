@@ -29,8 +29,8 @@
                     android:layout_height="136dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/insert_photo_here"
                     android:contentDescription="TODO"
+                    app:srcCompat="@drawable/earthquake"
                     tools:ignore="ContentDescription,HardcodedText" />
 
                 <LinearLayout
@@ -110,7 +110,7 @@
                     android:layout_height="136dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/insert_photo_here"
+                    app:srcCompat="@drawable/flood"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
@@ -191,7 +191,7 @@
                     android:layout_height="136dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/insert_photo_here"
+                    app:srcCompat="@drawable/fire"
                     android:contentDescription="TODO"
                     tools:ignore="ContentDescription,HardcodedText" />
 
@@ -273,7 +273,7 @@
                     android:layout_height="136dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/insert_photo_here"
+                    app:srcCompat="@drawable/storm"
                     android:contentDescription="TODO"
                     tools:ignore="ContentDescription,HardcodedText" />
 
@@ -355,7 +355,7 @@
                     android:layout_height="136dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
-                    app:srcCompat="@drawable/insert_photo_here"
+                    app:srcCompat="@drawable/hurricane"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
@@ -379,7 +379,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="10dp"
-                            android:text="@string/earthquake"
+                            android:text="@string/hurricane"
                             android:textColor="@color/black"
                             android:textSize="25sp"
                             android:textStyle="bold"

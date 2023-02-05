@@ -1,5 +1,6 @@
 package com.unipi.chrispana.smartalert;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -13,9 +14,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ViewStatistics extends AppCompatActivity {
     private static final int TIME_INTERVAL = 2000; // 2 seconds
@@ -23,6 +30,8 @@ public class ViewStatistics extends AppCompatActivity {
     FirebaseAuth mAuth;
     LocationManager locationManager;
     LocationListener locationListener;
+    TextView earthInc, floodInc, fireInc, stormInc, hurricaneInc;
+    DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +39,42 @@ public class ViewStatistics extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getString(R.string.viewStatistics));
+        earthInc = findViewById(R.id.earthInc);
+        floodInc = findViewById(R.id.floodInc);
+        fireInc = findViewById(R.id.fireInc);
+        stormInc = findViewById(R.id.stormInc);
+        hurricaneInc = findViewById(R.id.hurricaneInc);
+        reference = FirebaseDatabase.getInstance().getReference("sent_alerts");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    System.out.println(dataSnapshot.getKey());
+                    switch (dataSnapshot.getKey()){
+                        case "Earthquake":
+                            earthInc.setText(dataSnapshot.getValue(Integer.class).toString());
+                            break;
+                        case "Flood":
+                            floodInc.setText(dataSnapshot.getValue(Integer.class).toString());
+                            break;
+                        case "Fire":
+                            fireInc.setText(dataSnapshot.getValue(Integer.class).toString());
+                            break;
+                        case "Storm":
+                            stormInc.setText(dataSnapshot.getValue(Integer.class).toString());
+                            break;
+                        case "Hurricane":
+                            hurricaneInc.setText(dataSnapshot.getValue(Integer.class).toString());
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

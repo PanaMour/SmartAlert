@@ -67,9 +67,7 @@ public class ApproveAlert extends AppCompatActivity {
     ImageView image;
     Button accept, reject;
     FirebaseDatabase database;
-    DatabaseReference reference;
-    DatabaseReference rejectReference;
-    DatabaseReference acceptReference;
+    DatabaseReference allUsersReference, rejectReference, acceptReference, sentAlertsReference;
     StorageReference storageReference;
     CheckBox checkBoxSimilar, checkBoxInstructions;
     public static final double earthRadius = 6371.0;
@@ -91,7 +89,7 @@ public class ApproveAlert extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         resources = getResources();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference("alerts");
+        allUsersReference = database.getReference("alerts");
         event = findViewById(R.id.eventContent);
         location = findViewById(R.id.locationContent);
         location.setMovementMethod(new ScrollingMovementMethod());
@@ -128,7 +126,7 @@ public class ApproveAlert extends AppCompatActivity {
         });
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -161,10 +159,11 @@ public class ApproveAlert extends AppCompatActivity {
         });
     }
     public void accept(View view){
-        /*database = FirebaseDatabase.getInstance();
-        reference = database.getReference("alerts");
+        database = FirebaseDatabase.getInstance();
+        allUsersReference = database.getReference("alerts");
         acceptReference = database.getReference("accepted");
-        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        sentAlertsReference = database.getReference("sent_alerts");
+        allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -196,30 +195,44 @@ public class ApproveAlert extends AppCompatActivity {
                                 isWithinKilometers(alertSnapshot.child("location").getValue(String.class),alertClass.getLocation(),kilometers)&&
                                 !alertSnapshot.child("id").getValue(String.class).equals(alertClass.getId())){
                             if(!checkBoxSimilar.isChecked())
-                                reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
+                                allUsersReference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
                             else{
                                 System.out.println(alertSnapshot);
                                 acceptReference.child(alertSnapshot.getKey()).setValue(alertSnapshot.getValue(AlertClass.class));
-                                reference.child(alertSnapshot.getKey()).removeValue();
+                                allUsersReference.child(alertSnapshot.getKey()).removeValue();
                             }
                         }
                     }
                     acceptReference.child(alertClass.getId()).setValue(alertClass);
-                    reference.child(alertClass.getId()).removeValue();
+                    allUsersReference.child(alertClass.getId()).removeValue();
+                    sentAlertsReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            int c = 0;
+                            for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
+                                if (alertSnapshot.child("").getKey().equals(alertClass.getEvent())){
+                                    c = alertSnapshot.getValue(Integer.class) + 1;
+                                    break;
+                                }
+                            }
+                            sentAlertsReference.child(alertClass.getEvent()).setValue(c);
+                        }
+                    });
+                    sendNotification();
                     onBackPressed();
                 }
                 else {
                     Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
                 }
             }
-        });*/
+        });
 
-        sendNotification();
+
     }
 
     private void sendNotification(){
-        reference = database.getReference("all_users");
-        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        allUsersReference = database.getReference("all_users");
+        allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -248,22 +261,22 @@ public class ApproveAlert extends AppCompatActivity {
                                     break;
                             }
                             targetToken = alertSnapshot.child("token").getValue(String.class);
-                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
-                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(eventENG);
+                            allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("eventLocation").setValue(alertClass.getLocation());
+                            allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("title").setValue(eventENG);
                             if(checkBoxInstructions.isChecked())
-                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText().toString());
+                                allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(instructions.getText().toString());
                             else
-                                reference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(message);
-                            reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
+                                allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("message").setValue(message);
+                            allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(true);
                         }
                     }
-                    reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if (task.isSuccessful()) {
                                 for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
                                     if(alertSnapshot.child("role").getValue(String.class).equals("user"))
-                                        reference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(false);
+                                        allUsersReference.child(alertSnapshot.child("uid").getValue(String.class)).child("startTracking").setValue(false);
                                 }
                             }else {
                                 Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
@@ -280,9 +293,9 @@ public class ApproveAlert extends AppCompatActivity {
 
     public void reject(View view){
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference("alerts");
+        allUsersReference = database.getReference("alerts");
         rejectReference = database.getReference("rejected");
-        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -315,12 +328,12 @@ public class ApproveAlert extends AppCompatActivity {
                         !alertSnapshot.child("id").getValue(String.class).equals(alertClass.getId())){
                             //uncomment if you want rejected tables' records to have count equal to 1
                             //alertClass.setCount(alertClass.getCount()-1);
-                            reference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
+                            allUsersReference.child(alertSnapshot.getKey()).child("count").setValue(alertSnapshot.child("count").getValue(Integer.class)-1);
                         }
                     }
                     System.out.println(alertClass);
                     rejectReference.child(alertClass.getId()).setValue(alertClass);
-                    reference.child(alertClass.getId()).removeValue();
+                    allUsersReference.child(alertClass.getId()).removeValue();
                     onBackPressed();
                 }
                 else {

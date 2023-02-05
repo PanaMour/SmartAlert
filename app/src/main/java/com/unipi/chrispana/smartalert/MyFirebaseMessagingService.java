@@ -30,9 +30,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        System.out.println("From: " + remoteMessage.getFrom());
-        System.out.println("IDK"+ remoteMessage.getData());
-
         sendNotification(remoteMessage);
     }
 

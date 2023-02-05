@@ -53,5 +53,10 @@
     <string name="toastSucAlert">Alert has been sent successfully!</string>
     <string name="userInsertAlert">INSERT ALERT</string>
     <string name="countStatistics">Incidents: </string>
+    <string name="welcomeText">Logged in as:</string>
+    <string name="error">Error!</string>
+    <string name="passMatch">Passwords do not match.</string>
+    <string name="fillForm">Please fill in the form.</string>
+    <string name="occurerror">An error occurred. Please try again!</string>
     <string name="zero" translatable="false">0</string>
 </resources>

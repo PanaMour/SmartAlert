@@ -64,8 +64,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
                         // Get new FCM registration token
                         token = task.getResult();
-
-                        System.out.println("Here is the Token: "+token);
                     }
                 });
     }
@@ -102,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         if(!email.getText().toString().equals("") && !password.getText().toString().equals("")) {
             if (password.getText().toString().equals(confirmpassword.getText().toString())) {
                 if (location.equals(""))
-                    showMessage("Error!","An error occurred. Please try again!");
+                    showMessage(getString(R.string.error),getString(R.string.occurerror));
                 else {
                     database = FirebaseDatabase.getInstance();
                     reference = database.getReference("all_users");
@@ -120,17 +118,17 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                         Toast.makeText(RegisterActivity.this,getString(R.string.toastSucUserReg), Toast.LENGTH_SHORT).show();
                                         onBackPressed();
                                     } else {
-                                        showMessage("Error", task.getException().getLocalizedMessage());
+                                        showMessage(getString(R.string.error), task.getException().getLocalizedMessage());
                                     }
                                 }
                             });
                 }
             } else {
-                showMessage("Error", "Passwords do not match.");
+                showMessage(getString(R.string.error), getString(R.string.passMatch));
             }
         }
         else{
-            showMessage("Error", "Please fill in the form.");
+            showMessage(getString(R.string.error), getString(R.string.fillForm));
         }
     }
 

@@ -78,10 +78,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                         // Get new FCM registration token
                         token = task.getResult();
-
-                        // Log and toast
-                        System.out.println("Here is the Token: "+token);
-                        //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -140,47 +136,52 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if (loc != null) {
                 location = loc.getLatitude()+ "," + loc.getLongitude();
             }
-            database = FirebaseDatabase.getInstance();
-            reference = database.getReference("all_users");
-            mAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        user = mAuth.getCurrentUser();
-                        reference.child(user.getUid()).child("token").setValue(token);
-                        reference.child(user.getUid()).child("location").setValue(location);
-                        Toast.makeText(MainActivity.this,getString(R.string.toastSucLogIn),Toast.LENGTH_SHORT).show();
-                        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            if(!email.getText().toString().equals("") && !password.getText().toString().equals("")) {
+                    if (location.equals(""))
+                        showMessage(getString(R.string.error), getString(R.string.occurerror));
+                    else {
+                        database = FirebaseDatabase.getInstance();
+                        reference = database.getReference("all_users");
+                        mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
-                                        if(alertSnapshot.child("uid").getValue().equals(user.getUid())) {
-                                            if(alertSnapshot.child("role").getValue(String.class).equals("user")){
-                                                Intent intent = new Intent(MainActivity.this, ViewStatistics.class);
-                                                startActivity(intent);
-                                                return;
-                                            }
-                                            else if(alertSnapshot.child("role").getValue(String.class).equals("employee")){
-                                                Intent intent = new Intent(MainActivity.this, ViewEvents.class);
-                                                startActivity(intent);
-                                                return;
+                                    user = mAuth.getCurrentUser();
+                                    reference.child(user.getUid()).child("token").setValue(token);
+                                    reference.child(user.getUid()).child("location").setValue(location);
+                                    Toast.makeText(MainActivity.this, getString(R.string.toastSucLogIn), Toast.LENGTH_SHORT).show();
+                                    reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (DataSnapshot alertSnapshot : task.getResult().getChildren()) {
+                                                    if (alertSnapshot.child("uid").getValue().equals(user.getUid())) {
+                                                        if (alertSnapshot.child("role").getValue(String.class).equals("user")) {
+                                                            Intent intent = new Intent(MainActivity.this, ViewStatistics.class);
+                                                            startActivity(intent);
+                                                            return;
+                                                        } else if (alertSnapshot.child("role").getValue(String.class).equals("employee")) {
+                                                            Intent intent = new Intent(MainActivity.this, ViewEvents.class);
+                                                            startActivity(intent);
+                                                            return;
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
                                             }
                                         }
-                                    }
-                                }
-                                else {
-                                    Log.d("Task was not successful", String.valueOf(task.getResult().getValue()));
+                                    });
+                                } else {
+                                    showMessage(getString(R.string.error), task.getException().getLocalizedMessage());
                                 }
                             }
                         });
                     }
-                    else{
-                        showMessage("Error",task.getException().getLocalizedMessage());
-                    }
                 }
-            });
-
+                else{
+                    showMessage(getString(R.string.error), getString(R.string.fillForm));
+                }
         }
         else {
             Toast.makeText(this, getString(R.string.toastGrantLocation), Toast.LENGTH_SHORT).show();

@@ -133,6 +133,15 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                 someActivityResultLauncher.launch(intent);
             }
         });
+        binding.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                someActivityResultLauncher.launch(intent);
+            }
+        });
     }
 
     @Override
@@ -258,7 +267,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         reference = database.getReference("alerts");
 
         if (location.equals(""))
-            showMessage("Error!","An error occurred. Please try again!");
+            showMessage(getString(R.string.error),getString(R.string.occurerror));
         else {
             String event = events.getSelectedItem().toString();
             String comment = comments.getText().toString();

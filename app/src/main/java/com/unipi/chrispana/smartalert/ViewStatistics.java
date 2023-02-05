@@ -30,7 +30,7 @@ public class ViewStatistics extends AppCompatActivity {
     FirebaseAuth mAuth;
     LocationManager locationManager;
     LocationListener locationListener;
-    TextView earthInc, floodInc, fireInc, stormInc, hurricaneInc;
+    TextView earthInc, floodInc, fireInc, stormInc, hurricaneInc, emailText;
     DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,8 @@ public class ViewStatistics extends AppCompatActivity {
         fireInc = findViewById(R.id.fireInc);
         stormInc = findViewById(R.id.stormInc);
         hurricaneInc = findViewById(R.id.hurricaneInc);
+        emailText = findViewById(R.id.useremailText);
+        emailText.setText(mAuth.getCurrentUser().getEmail());
         reference = FirebaseDatabase.getInstance().getReference("sent_alerts");
         reference.addValueEventListener(new ValueEventListener() {
             @Override

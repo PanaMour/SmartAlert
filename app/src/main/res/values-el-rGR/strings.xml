@@ -58,4 +58,6 @@
     <string name="passMatch">Οι κωδικοί πρόσβασης δεν ταιριάζουν μεταξύ τους.</string>
     <string name="occurerror">Σφάλμα. Παρακαλώ προσπαθήστε ξανά!</string>
     <string name="fillForm">Παρακαλώ συμπληρώστε τα στοιχεία της φόρμας.</string>
+    <string name="listening">Ακρόαση για ειδοποιήσεις...</string>
+    <string name="stoplistening">Ακύρωση</string>
 </resources>

@@ -8,9 +8,6 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -27,13 +24,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //super.onNewToken(token);
         System.out.println("MyToken "+ token);
     }
-
+    //Gets the message through FirebaseMessagingService and calls sendNotification().
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         sendNotification(remoteMessage);
     }
-
-
+    //Gets the content of the remoteMessage and creates a specific notification that is sent to the users.
     private void sendNotification(RemoteMessage remoteMessage) {
         Map<String,String> data = remoteMessage.getData();
         String title = data.get("title");

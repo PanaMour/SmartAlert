@@ -32,6 +32,8 @@ public class ViewStatistics extends AppCompatActivity {
     LocationListener locationListener;
     TextView earthInc, floodInc, fireInc, stormInc, hurricaneInc, emailText;
     DatabaseReference reference;
+    //Whenever an alert gets approved the database gets updated and depending on the event (Earthquake, Flood, etc) in the path "sent_alerts" values change.
+    //In the onCreate() there is an OnDataChange that updates the corresponding fields (textViews).
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,7 @@ public class ViewStatistics extends AppCompatActivity {
         });
     }
 
+    //If the user presses the back button twice in 2 seconds the app moves to the background.
     @Override
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
@@ -88,12 +91,13 @@ public class ViewStatistics extends AppCompatActivity {
         }
         mBackPressed = System.currentTimeMillis();
     }
-
+    //Adds logout to action bar.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
+    //Closes running service, signs out and redirects to MainActivity.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -109,6 +113,7 @@ public class ViewStatistics extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    //Stops listening for Location updates.
     @Override
     protected void onPause() {
         super.onPause();
@@ -116,6 +121,7 @@ public class ViewStatistics extends AppCompatActivity {
             locationManager.removeUpdates(locationListener);
         System.out.println("App was paused");
     }
+    //Starts listening for Location updates.
     @Override
     protected void onResume() {
         super.onResume();
@@ -132,7 +138,7 @@ public class ViewStatistics extends AppCompatActivity {
         startService(serviceIntent);
         System.out.println("App Resumed");
     }
-
+    //Redirects to UserAlert.
     public void insertAlert(View view){
         Intent intent = new Intent(this, UserAlert.class);
         startActivity(intent);

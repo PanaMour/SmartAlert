@@ -20,7 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,6 +48,10 @@ public class LocationService extends Service {
         return null;
     }
 
+    //Gets location and calculates the distance between user's and event's location depending of the type of the event.
+    //If there are in within the corresponding kilometers it sends a POST request with volley.
+    //This request will be handled in MyFirebaseMessagingService that will send notifications to users.
+    //Then it stops listening from location updates and also stops itself.
     @Override
     public void onCreate() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -84,12 +87,12 @@ public class LocationService extends Service {
                     StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            // Handle response from the server
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            // Handle error
+
                         }
                     }) {
                         @Override
@@ -137,7 +140,7 @@ public class LocationService extends Service {
             public void onProviderDisabled(String provider) { }
         };
     }
-
+    //Gets data through putExtra from DatabaseListenerService and requests location updates.
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         uid = intent.getStringExtra("userid");
@@ -150,7 +153,7 @@ public class LocationService extends Service {
         }
         return super.onStartCommand(intent, flags, startId);
     }
-
+    //Removes location updates.
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -158,7 +161,7 @@ public class LocationService extends Service {
             locationManager.removeUpdates(locationListener);
         }
     }
-
+    //Calculates the distance between 2 points using Haversine Formula
     public static boolean isWithinKilometers(String location1, String location2, double n) {
         String[] latLong1 = location1.split(",");
         String[] latLong2 = location2.split(",");

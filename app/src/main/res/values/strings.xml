@@ -58,5 +58,7 @@
     <string name="passMatch">Passwords do not match.</string>
     <string name="fillForm">Please fill in the form.</string>
     <string name="occurerror">An error occurred. Please try again!</string>
+    <string name="listening">Listening for Alerts...</string>
+    <string name="stoplistening">Stop Listening</string>
     <string name="zero" translatable="false">0</string>
 </resources>

@@ -25,6 +25,8 @@ public class DatabaseListenerService extends Service {
 
     FirebaseAuth mAuth;
     FirebaseUser user;
+    //If this service has been started with action "CLOSE" it stops itself, otherwise it continuously listens for changes in the Database.
+    //If the startTracking value changes then a new Location Service is being started with all the data needed passed to it.
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
@@ -36,7 +38,6 @@ public class DatabaseListenerService extends Service {
             return Service.START_STICKY;
         }
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("all_users").child(user.getUid());
-        // Listen to the database and perform actions when data changes
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,6 +69,7 @@ public class DatabaseListenerService extends Service {
         return null;
     }
 
+    //Creates a notification that informs the user that the application is running in the background.
     private Notification createNotification() {
         Intent intent = new Intent(this, UserAlert.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
@@ -77,12 +79,13 @@ public class DatabaseListenerService extends Service {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "listener_service_channel")
                 .setSmallIcon(R.drawable.logofg)
-                .setContentTitle("Listening for Alerts...")
+                .setContentTitle(getString(R.string.listening))
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
-                .addAction(R.drawable.logofg, "Stop Listening", cancelPendingIntent);
+                .addAction(R.drawable.logofg, getString(R.string.stoplistening), cancelPendingIntent);
         return builder.build();
     }
+    //Creates a notification Channel that is mandatory so that the above notification is displayed and the service will be running in the background.
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("listener_service_channel",

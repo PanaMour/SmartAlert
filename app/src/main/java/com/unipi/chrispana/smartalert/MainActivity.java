@@ -1,14 +1,11 @@
 package com.unipi.chrispana.smartalert;
 
-import static java.lang.Double.parseDouble;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -36,8 +33,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -81,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     }
                 });
     }
+    //If user has given permission to Location then it gets the user's current location
     public void getLocation(){
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -105,14 +101,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
     }
-
+    //Asks user for Location Permission
     private void askForLocationPermission(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         }
     }
-
-
+    //Checks if user has given permission to Background Location and Notifications and if yes redirects the user to Register Activity
     public void register(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION )== PackageManager.PERMISSION_GRANTED) {
             getLocation();
@@ -127,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             startActivity(intent);
         }
     }
+    //Checks if user has given permission to Background Location and Notifications and if yes then checks the authentication
+    //If it is a User: it opens the DatabaseListener Service and redirects them to ViewStatistics
+    //If it is an Employee: it redirects them to ViewEvents
     public void login(View view){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION )== PackageManager.PERMISSION_GRANTED) {
             getLocation();
@@ -202,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+    //Displays a message to the user
     public void showMessage(String title, String text){
         new android.app.AlertDialog.Builder(this)
                 .setCancelable(true)
@@ -209,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 .setMessage(text)
                 .show();
     }
+    //If the user presses the back button twice in 2 seconds the app moves to the background
     @Override
     public void onBackPressed() {
         if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {

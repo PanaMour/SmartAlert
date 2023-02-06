@@ -27,38 +27,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class ApproveAlert extends AppCompatActivity {
 
@@ -79,6 +64,7 @@ public class ApproveAlert extends AppCompatActivity {
     Resources resources;
     String eventENG;
     FirebaseAuth mAuth;
+    //Retrieve full information of the selected alert's details from the database
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +144,7 @@ public class ApproveAlert extends AppCompatActivity {
             }
         });
     }
+    //Moves the alert from alerts table to accepted table in the database and increments the count in sent_alerts.
     public void accept(View view){
         database = FirebaseDatabase.getInstance();
         allUsersReference = database.getReference("alerts");
@@ -229,7 +216,8 @@ public class ApproveAlert extends AppCompatActivity {
 
 
     }
-
+    //Gets the user's token and adds fields to all_users containing the title, message of the notification.
+    //Also, sets to true the boolean 'startTracking' that activates the LocationService from the DatabaseListener Service
     private void sendNotification(){
         allUsersReference = database.getReference("all_users");
         allUsersReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -290,7 +278,7 @@ public class ApproveAlert extends AppCompatActivity {
             }
         });
     }
-
+    //Moves the alert from alerts to the rejected table where they can be deleted after a certain amount of time
     public void reject(View view){
         database = FirebaseDatabase.getInstance();
         allUsersReference = database.getReference("alerts");
@@ -342,7 +330,7 @@ public class ApproveAlert extends AppCompatActivity {
             }
         });
     }
-
+    //Calculates whether n hours have passed from timestamp1 to timestamp2
     public boolean isWithinHours(String timestamp1, String timestamp2, int n) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
@@ -353,7 +341,7 @@ public class ApproveAlert extends AppCompatActivity {
             return false;
         }
     }
-    //calculate the distance between 2 points using Haversine Formula
+    //Calculate the distance between 2 points using Haversine Formula
     public static boolean isWithinKilometers(String location1, String location2, double n) {
         String[] latLong1 = location1.split(",");
         String[] latLong2 = location2.split(",");
@@ -372,7 +360,7 @@ public class ApproveAlert extends AppCompatActivity {
 
         return distance <= n;
     }
-
+    //Retrieves image inputted by the user from the database. If no image was inputted then it retrieves a premeditated image
     public void retrieveImage(String imageID,ImageView photo,String event){
         if(!imageID.equals(""))
             storageReference = FirebaseStorage.getInstance().getReference(imageID);
@@ -399,11 +387,13 @@ public class ApproveAlert extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    //Adds logout to action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
+    //Signs out and redirects to MainActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

@@ -1,13 +1,10 @@
 package com.unipi.chrispana.smartalert;
 
-import static java.lang.Math.abs;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +13,9 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -36,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,24 +37,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.unipi.chrispana.smartalert.databinding.ActivityMainBinding;
 import com.unipi.chrispana.smartalert.databinding.ActivityUserAlertBinding;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -143,7 +128,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             }
         });
     }
-
+    //Stops Listening for Location updates
     @Override
     protected void onPause() {
         super.onPause();
@@ -151,11 +136,13 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             locationManager.removeUpdates(locationListener);
         System.out.println("App was paused");
     }
+    //Adds logout to action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
+    //Signs out and redirects to MainActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -171,6 +158,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         }
         return super.onOptionsItemSelected(item);
     }
+    //Starts listening for location updates
     @Override
     protected void onResume() {
         super.onResume();
@@ -187,7 +175,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
         startService(serviceIntent);
         System.out.println("App Resumed");
     }
-
+    //Opens user's gallery, then user selects an image and it is reformatted with a date format and binds it to the ImageView
     public void uploadImage(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(UserAlert.this);
@@ -218,7 +206,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
                     }
                 });
     }
-
+    //If user has given permission to Location then it gets the user's current location
     public void getLocation(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
@@ -254,7 +242,8 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             }
         }
     }
-
+    //Gets user's location and inserts an alert in the database based on the fields of the activity
+    //If a similar event is uploaded within the same range and time then the count field increments by the number of similar incidents
     public void insertAlert(View view){
         getLocation();
         if(locationManager != null){
@@ -327,6 +316,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             binding.imageView.setImageDrawable(getResources().getDrawable(R.drawable.insert_photo_here));
         }
     }
+    //Calculates whether n hours have passed from timestamp1 to timestamp2
     public boolean isWithinHours(String timestamp1, String timestamp2, int n) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
@@ -337,7 +327,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
             return false;
         }
     }
-    //calculate the distance between 2 points using Haversine Formula
+    //Calculates the distance between 2 points using Haversine Formula
     public static boolean isWithinKilometers(String location1, String location2, double n) {
         String[] latLong1 = location1.split(",");
         String[] latLong2 = location2.split(",");
@@ -356,6 +346,7 @@ public class UserAlert extends AppCompatActivity implements LocationListener {
 
         return distance <= n;
     }
+    //Displays a message to the user
     public void showMessage(String title, String text){
         new android.app.AlertDialog.Builder(this)
                 .setCancelable(true)

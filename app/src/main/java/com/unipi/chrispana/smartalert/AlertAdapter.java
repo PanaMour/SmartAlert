@@ -1,25 +1,19 @@
 package com.unipi.chrispana.smartalert;
 
-import static androidx.browser.customtabs.CustomTabsClient.getPackageName;
 import static java.lang.Double.parseDouble;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,14 +39,14 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
         this.list = list;
         this.resources = resources;
     }
-
+    //When ViewEvents OnCreate is called a new ViewHolder is created in the layout using layout binding from item.xml
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
-
         return new MyViewHolder(v);
     }
+    //The function receives the AlertClass object from the database (list) and binds it to the view holder's fields (Textview, ImageView etc..)
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -82,12 +76,12 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
             }
         });
     }
-
+    //Returns the list's size so that it can be used dynamically
     @Override
     public int getItemCount() {
         return list.size();
     }
-
+    //Initialize the TextViews and ImageViews that are needed in the holder
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView event, location, time;
@@ -103,7 +97,7 @@ public class AlertAdapter extends RecyclerView.Adapter<AlertAdapter.MyViewHolder
 
         }
     }
-
+    //Retrieves image inputted by the user from the database. If no image was inputted then it retrieves a premeditated image
     public void retrieveImage(String imageID,ImageView photo,String event){
         if(!imageID.equals(""))
             storageReference = FirebaseStorage.getInstance().getReference(imageID);

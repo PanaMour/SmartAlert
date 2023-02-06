@@ -14,11 +14,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -67,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                     }
                 });
     }
+    //If user has given permission to Location then it gets the user's current location
     public void getLocation(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
@@ -96,6 +95,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             }
         }
     }
+    //Checks if email is formatted correctly & if the 2 password match with each other, then checks if Location is not null
+    //If the above checks are completed correctly then a new user is created in the authentication system and the database with the device's token
     public void register(View view){
         if(!email.getText().toString().equals("") && !password.getText().toString().equals("")) {
             if (password.getText().toString().equals(confirmpassword.getText().toString())) {
@@ -135,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     public void back(View view){
         onBackPressed();
     }
-
+    //Displays a message to the user
     public void showMessage(String title, String text){
         new android.app.AlertDialog.Builder(this)
                 .setCancelable(true)

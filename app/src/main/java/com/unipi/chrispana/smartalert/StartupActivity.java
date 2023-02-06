@@ -9,7 +9,6 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,6 +37,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
     FirebaseUser user;
     FirebaseDatabase database;
     DatabaseReference reference;
+    //Checks if the user is already logged in and redirects them to their corresponding Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +74,7 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
         }else
             setContentView(R.layout.activity_startup);
     }
-
+    //If user has given permission to Location then it gets the user's current location
     public void getLocation(){
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -99,6 +99,8 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
             }
         }
     }
+    //Checks if user has enabled Background Location and Notifications permissions. If not redirects them to settings in order to do so.
+    //If yes redirects them to the MainActivity
     public void startup(View view) {
 
         LocationManager locationManager1 = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -145,12 +147,5 @@ public class StartupActivity extends AppCompatActivity implements LocationListen
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-    public void showMessage(String title, String text){
-        new android.app.AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle(title)
-                .setMessage(text)
-                .show();
     }
 }

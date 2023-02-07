@@ -192,17 +192,18 @@ public class ApproveAlert extends AppCompatActivity {
                     }
                     acceptReference.child(alertClass.getId()).setValue(alertClass);
                     allUsersReference.child(alertClass.getId()).removeValue();
-                    sentAlertsReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    acceptReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            int c = 0;
-                            for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
-                                if (alertSnapshot.child("").getKey().equals(alertClass.getEvent())){
-                                    c = alertSnapshot.getValue(Integer.class) + 1;
-                                    break;
+                            if(task.isSuccessful()){
+                                int c = 0;
+                                for(DataSnapshot alertSnapshot : task.getResult().getChildren()){
+                                    if(alertSnapshot.child("event").getValue(String.class).equals(alertClass.getEvent())){
+                                        c++;
+                                    }
                                 }
+                                sentAlertsReference.child(alertClass.getEvent()).setValue(c);
                             }
-                            sentAlertsReference.child(alertClass.getEvent()).setValue(c);
                         }
                     });
                     sendNotification();

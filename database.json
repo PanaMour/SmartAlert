@@ -1,0 +1,314 @@
+{
+  "accepted": {
+    "-NNfacKpQeJEQsLew3yd": {
+      "comments": "It is really windy! Please inform the others that it's dangerous out here.",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNfacKpQeJEQsLew3yd",
+      "location": "38.23092833333333,21.745641666666668",
+      "photo": "07_02_2023_13_19_47",
+      "timestamp": "08/02/2023 13:19:47"
+    },
+    "-NNfatKw26cr4DUq9zEh": {
+      "comments": "I can't believe it. A Hurricane in Patra? That's a first.",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNfatKw26cr4DUq9zEh",
+      "location": "38.220814, 21.750526",
+      "photo": "07_02_2023_13_20_57",
+      "timestamp": "08/02/2023 13:20:57"
+    },
+    "-NNfbBwike6lXWT_48dw": {
+      "comments": "No way! My house is about to get destroyed! I am terrified please send help!",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNfbBwike6lXWT_48dw",
+      "location": "38.219435, 21.745942",
+      "photo": "07_02_2023_13_22_17",
+      "timestamp": "08/02/2023 13:20:17"
+    },
+    "-NNfiMeN4y1_VVZXBNXY": {
+      "comments": "The water is rising. I am drowning!",
+      "count": 4,
+      "event": "Flood",
+      "id": "-NNfiMeN4y1_VVZXBNXY",
+      "location": "39.377851666666665,22.937756666666665",
+      "photo": "",
+      "timestamp": "07/02/2023 13:53:39"
+    },
+    "-NNfiSzoG6swZE_S_8Pr": {
+      "comments": "There is a flood. I wasn't expecting that.",
+      "count": 4,
+      "event": "Flood",
+      "id": "-NNfiSzoG6swZE_S_8Pr",
+      "location": "39.353456666666666,23.029625",
+      "photo": "",
+      "timestamp": "07/02/2023 13:54:05"
+    },
+    "-NNfibOv3bRwa_dE0f1V": {
+      "comments": "I went out for a walk and the current hit me. Oh no!",
+      "count": 4,
+      "event": "Flood",
+      "id": "-NNfibOv3bRwa_dE0f1V",
+      "location": "39.31203,23.043356666666668",
+      "photo": "",
+      "timestamp": "07/02/2023 13:54:44"
+    },
+    "-NNfihj79IIwWIOaKe7Y": {
+      "comments": "Watch out! There is a flood coming. Inform the citizens!",
+      "count": 4,
+      "event": "Flood",
+      "id": "-NNfihj79IIwWIOaKe7Y",
+      "location": "39.334511666666664,23.029388333333333",
+      "photo": "",
+      "timestamp": "07/02/2023 13:55:10"
+    },
+    "-NNfj9hlb-98HxJEOhMH": {
+      "comments": "I think there is an earthquake happening. It is small scale though!",
+      "count": 1,
+      "event": "Earthquake",
+      "id": "-NNfj9hlb-98HxJEOhMH",
+      "location": "35.092305,26.147791666666667",
+      "photo": "",
+      "timestamp": "07/02/2023 13:57:08"
+    },
+    "-NNfkqBquDNmb2XwQv68": {
+      "comments": "It's so hot. Send help.",
+      "count": 1,
+      "event": "Fire",
+      "id": "-NNfkqBquDNmb2XwQv68",
+      "location": "36.087985,28.070886666666667",
+      "photo": "",
+      "timestamp": "07/02/2023 14:04:29"
+    },
+    "-NNfkzQKFnDr7atfDfri": {
+      "comments": "I think there is a fire. Wow!",
+      "count": 1,
+      "event": "Fire",
+      "id": "-NNfkzQKFnDr7atfDfri",
+      "location": "36.257435,28.14634",
+      "photo": "",
+      "timestamp": "07/02/2023 14:05:06"
+    },
+    "-NNfl8N2VvOTCbO3oA8W": {
+      "comments": "",
+      "count": 2,
+      "event": "Storm",
+      "id": "-NNfl8N2VvOTCbO3oA8W",
+      "location": "35.26892,25.169733333333333",
+      "photo": "",
+      "timestamp": "07/02/2023 14:05:47"
+    },
+    "-NNflAzgpPLXE5NzdecV": {
+      "comments": "A big storm is coming!",
+      "count": 2,
+      "event": "Storm",
+      "id": "-NNflAzgpPLXE5NzdecV",
+      "location": "35.26892,25.169733333333333",
+      "photo": "",
+      "timestamp": "07/02/2023 14:05:58"
+    },
+    "-NNflFKsaos0hPoC5moE": {
+      "comments": "Oh it is raning cats and dogs!",
+      "count": 2,
+      "event": "Storm",
+      "id": "-NNflFKsaos0hPoC5moE",
+      "location": "35.430215,24.0711",
+      "photo": "",
+      "timestamp": "07/02/2023 14:06:16"
+    },
+    "-NNflOoTiNOtuWuWJ4bE": {
+      "comments": "Bad weather is coming",
+      "count": 2,
+      "event": "Storm",
+      "id": "-NNflOoTiNOtuWuWJ4bE",
+      "location": "35.336165,24.50506",
+      "photo": "",
+      "timestamp": "07/02/2023 14:06:55"
+    }
+  },
+  "alerts": {
+    "-NNfdPuEh8Qchg_SzhCS": {
+      "comments": "THAT IS MY HOUSE! As you can see it is dangerous out here. Send HELP!",
+      "count": 2,
+      "event": "Earthquake",
+      "id": "-NNfdPuEh8Qchg_SzhCS",
+      "location": "40.94289,24.416025",
+      "photo": "07_02_2023_13_31_58",
+      "timestamp": "07/02/2023 13:31:58"
+    },
+    "-NNfet8SVeIxVYesKIwW": {
+      "comments": "The earth has cracked. We need to evacuate immediately!",
+      "count": 2,
+      "event": "Earthquake",
+      "id": "-NNfet8SVeIxVYesKIwW",
+      "location": "40.95274333333333,24.419801666666668",
+      "photo": "07_02_2023_13_38_24",
+      "timestamp": "07/02/2023 13:38:24"
+    },
+    "-NNfhWPOe61co2tyky2L": {
+      "comments": "Oh my god! Someone lit a fire near the forest. The trees are burning and it is getting close!",
+      "count": 3,
+      "event": "Fire",
+      "id": "-NNfhWPOe61co2tyky2L",
+      "location": "39.547115,21.745115",
+      "photo": "07_02_2023_13_49_57",
+      "timestamp": "07/02/2023 13:49:57"
+    },
+    "-NNfhsIOvT0SRwbXlS2X": {
+      "comments": "Oh no! There is a fire near my house. Please send some fire fighters right now!",
+      "count": 3,
+      "event": "Fire",
+      "id": "-NNfhsIOvT0SRwbXlS2X",
+      "location": "39.56381,21.774523333333335",
+      "photo": "07_02_2023_13_51_31",
+      "timestamp": "07/02/2023 13:51:31"
+    },
+    "-NNfi3_p7k_Wo3y5Omb2": {
+      "comments": "I think I see a fire starting up. I hope it doesn't reach the houses.",
+      "count": 3,
+      "event": "Fire",
+      "id": "-NNfi3_p7k_Wo3y5Omb2",
+      "location": "39.54517166666667,21.782991666666668",
+      "photo": "",
+      "timestamp": "07/02/2023 13:52:21"
+    },
+    "-NNl-WdKe9T4PBW44mVy": {
+      "comments": "It is really windy! Please inform the others that it's dangerous out here.",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNl-WdKe9T4PBW44mVy",
+      "location": "38.23092833333333,21.745641666666668",
+      "photo": "07_02_2023_13_19_47",
+      "timestamp": "08/02/2023 14:30:57"
+    },
+    "-NNl-YSW2ze7XuF2Pck9": {
+      "comments": "",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNl-YSW2ze7XuF2Pck9",
+      "location": "38.252696666666665,21.73990166666667",
+      "photo": "",
+      "timestamp": "08/02/2023 14:31:04"
+    },
+    "-NNl4XQFS6q3Dx1cFlZx": {
+      "comments": "There is a hurricane near my house!",
+      "count": 4,
+      "event": "Hurricane",
+      "id": "-NNl4XQFS6q3Dx1cFlZx",
+      "location": "38.252696666666665,21.73990166666667",
+      "photo": "08_02_2023_14_52_51",
+      "timestamp": "08/02/2023 13:23:44"
+    }
+  },
+  "all_users": {
+    "Uc6OVeH9dRUigyXAgWawIvnesr43": {
+      "eventLocation": "38.249595,21.737926666666667",
+      "location": "37.94155666666666,23.652791666666666",
+      "message": "Please stay indoors, there is a hurricane in your area!",
+      "role": "user",
+      "startTracking": false,
+      "title": "Hurricane",
+      "token": "c5uAjTpnQReyh1QpuiRSSS:APA91bG1Mqq19ChL7pKyDVem8iKwMMbwNS8UTZSDVTozNdQK_jsI90PCalPbFPh9auD0_pcnk0Dny8_OlLtUpUGvG5ZcbJ2IJZIyE8o9THqJmzOhJdha0IyRe5EpljIKT7Z8O3Tz7BG5",
+      "uid": "Uc6OVeH9dRUigyXAgWawIvnesr43"
+    },
+    "X5vj2BH871eG6q6N73v0fOUtNec2": {
+      "eventLocation": "38.249595,21.737926666666667",
+      "location": "38.249595,21.737926666666667",
+      "message": "Please stay indoors, there is a hurricane in your area!",
+      "role": "user",
+      "startTracking": false,
+      "title": "Hurricane",
+      "token": "feRLP_2pQVmwxDBTyoZ0iC:APA91bEiCblXexIckKKoDhw75uZBSTBPbYbr4X_1Vy4NDPqTtTIaDnYopGh3ccjHja0cIVARnQwuorbMfg_d85Qf7D068NoIYcUlP6-FeVTYOGaaXAWLEvqIReQlHfWdiyAOmrjA3djh",
+      "uid": "X5vj2BH871eG6q6N73v0fOUtNec2"
+    },
+    "Y5XaaMhyZ9NKZCszbEJW9Wpoplx1": {
+      "location": "38.252696666666665,21.73990166666667",
+      "role": "employee",
+      "startTracking": false,
+      "token": "feRLP_2pQVmwxDBTyoZ0iC:APA91bEiCblXexIckKKoDhw75uZBSTBPbYbr4X_1Vy4NDPqTtTIaDnYopGh3ccjHja0cIVARnQwuorbMfg_d85Qf7D068NoIYcUlP6-FeVTYOGaaXAWLEvqIReQlHfWdiyAOmrjA3djh",
+      "uid": "Y5XaaMhyZ9NKZCszbEJW9Wpoplx1"
+    },
+    "Z0siBb2G8wSrX1OXaCR4sFl9ODE3": {
+      "eventLocation": "38.249595,21.737926666666667",
+      "location": "37.940738333333336,23.651433333333333",
+      "message": "Please stay indoors, there is a hurricane in your area!",
+      "role": "user",
+      "startTracking": false,
+      "title": "Hurricane",
+      "token": "e0S7zGUnQq6iMeLn_iiFwN:APA91bEQPfcP2JCzuhRNzs6wekJ9fNBw4oRxCGEJF1IldsrjRR8aWxjpUsHSI0C9FJ0JCDmwPql-H455VkOSzxMNvwnTz4wd36xOvjvEcqlf53ck3lk8F6RY2HGNeLZIj_B1FP_ZSf05",
+      "uid": "Z0siBb2G8wSrX1OXaCR4sFl9ODE3"
+    },
+    "a6D08RYD8OMycthuFMriMgF5lBz1": {
+      "location": "38.24365,21.730335",
+      "role": "employee",
+      "startTracking": false,
+      "token": "cgxKit1qSiucR6oH476SvM:APA91bGSlkjdn0Lfjc6eL40TObXDV_PsnTJNBqulORLkknnkBpEHvE6SlRJ32sz-LHT1encx3uNGZ4ju6BUIY8Q_8Wqqeu_OdUeI8xRyfE2dQ797es_jTbr_GVUctFsE04-u4osYHhGB",
+      "uid": "a6D08RYD8OMycthuFMriMgF5lBz1"
+    },
+    "bpFNLvdEF1bGyfxUcYOquVDwo3z1": {
+      "eventLocation": "38.249595,21.737926666666667",
+      "location": "38.252696666666665,21.73990166666667",
+      "message": "Please stay indoors, there is a hurricane in your area!",
+      "role": "user",
+      "startTracking": false,
+      "title": "Hurricane",
+      "token": "fRM9YDi_Qp2jB_v-RTqsB5:APA91bHP8J8Eu7bs3PlSr-E_YzxDAqVxinexBSgnUDgv5rfxMbiXnrfJOixHxXYSj36Br98mxfr-eh8GTJqCf0QIa15Qb6yay7sS-ztMH3orQm27Pain60oi81YvWBy91zpBJLx8NEF1",
+      "uid": "bpFNLvdEF1bGyfxUcYOquVDwo3z1"
+    }
+  },
+  "rejected": {
+    "-NNfjhAkUSFyv0JSi8yN": {
+      "comments": "I think it is raining. I don't know for sure though!",
+      "count": 1,
+      "event": "Storm",
+      "id": "-NNfjhAkUSFyv0JSi8yN",
+      "location": "35.092305,26.147791666666667",
+      "photo": "",
+      "timestamp": "07/02/2023 13:59:30"
+    },
+    "-NNfjwJTMu44YXbcsyPe": {
+      "comments": "It may be a fire it may be my neighbour's barbecue. Not sure!",
+      "count": 4,
+      "event": "Fire",
+      "id": "-NNfjwJTMu44YXbcsyPe",
+      "location": "39.41373333333333,20.52978",
+      "photo": "",
+      "timestamp": "07/02/2023 14:00:32"
+    },
+    "-NNfkB3MESVz5p8Qzm3G": {
+      "comments": "I felt a bit of shaking!",
+      "count": 1,
+      "event": "Earthquake",
+      "id": "-NNfkB3MESVz5p8Qzm3G",
+      "location": "40.78161166666667,21.43828",
+      "photo": "",
+      "timestamp": "07/02/2023 14:01:36"
+    },
+    "-NNfkQc2NJk_dO8KAM4U": {
+      "comments": "It is burning up in here!",
+      "count": 4,
+      "event": "Fire",
+      "id": "-NNfkQc2NJk_dO8KAM4U",
+      "location": "40.78161166666667,21.43828",
+      "photo": "",
+      "timestamp": "07/02/2023 14:02:40"
+    },
+    "-NNgjyx1ysXP7byAbPK8": {
+      "comments": "I see some smoke but I think it might be my neighbor's barbecue!",
+      "count": 1,
+      "event": "Fire",
+      "id": "-NNgjyx1ysXP7byAbPK8",
+      "location": "37.86996333333333,23.758768333333332",
+      "photo": "07_02_2023_18_40_19",
+      "timestamp": "07/02/2023 18:40:19"
+    }
+  },
+  "sent_alerts": {
+    "Earthquake": 1,
+    "Fire": 2,
+    "Flood": 5,
+    "Hurricane": 4,
+    "Storm": 4
+  }
+}
